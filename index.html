@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Task Manager</title>
+    <style>
+        :root {
+            /* SBI Theme Colors */
+            --sbi-purple: #280071;
+            --sbi-blue: #0091d2;
+            --bg-gradient: linear-gradient(135deg, #280071 0%, #4a148c 100%);
+            
+            --orange: #f97316;
+            --red: #dc2626;
+            --green: #16a34a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-gradient);
+            margin: 0;
+            padding: 15px;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* HEADER UPDATED */
+        .main-header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--sbi-blue);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--sbi-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+
+        .header-date {
+            text-align: right;
+            border-left: 2px solid #eee;
+            padding-left: 15px;
+        }
+        .header-date .day { font-weight: bold; color: var(--sbi-blue); font-size: 14px; }
+        .header-date .date { font-size: 12px; color: #666; margin-top: 2px; }
+
+        /* INPUT AREA */
+        .input-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-row { display: flex; gap: 10px; }
+        
+        input {
+            padding: 12px; border: 2px solid #e0e0e0;
+            border-radius: 8px; font-size: 16px; outline: none; flex: 1;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--sbi-purple); }
+
+        button.add-btn {
+            background: var(--sbi-purple); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-size: 18px; cursor: pointer;
+            width: 100%; font-weight: bold; box-shadow: 0 4px 6px rgba(40, 0, 113, 0.3);
+        }
+        button.add-btn:hover { background: #1a004d; }
+
+        /* PERSON CARD */
+        .person-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        .card-header {
+            background: #f3e5f5; /* Light Purple Bg */
+            padding: 12px 15px;
+            border-left: 5px solid var(--sbi-purple);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .person-name { font-size: 16px; font-weight: bold; color: var(--sbi-purple); text-transform: capitalize; }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+        
+        li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex; align-items: center; gap: 10px;
+            background: white;
+        }
+        li:last-child { border-bottom: none; }
+
+        /* COLORS */
+        li.new-task { border-left: 4px solid var(--sbi-purple); }
+        li.orange-task { border-left: 4px solid var(--orange); background: #fff7ed; }
+        li.red-task { border-left: 4px solid var(--red); background: #fef2f2; }
+        li.done-task { border-left: 4px solid var(--green); background: #f0fdf4; opacity: 0.7; }
+        
+        li.done-task .task-text { text-decoration: line-through; color: #888; }
+
+        .task-info { flex: 1; }
+        .task-text { font-size: 15px; font-weight: 500; }
+        .task-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; color: white; margin-left: 5px; font-weight: bold; }
+
+        /* ACTIONS */
+        .btn-group { display: flex; gap: 8px; }
+        .action-btn {
+            width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .edit-btn { background: #e0f2fe; color: var(--sbi-blue); }
+        .check-btn { background: #dcfce7; color: var(--green); }
+        .del-btn { background: #fee2e2; color: var(--red); }
+
+        /* ORANGE PDF BUTTON */
+        .pdf-btn {
+            width: 100%; padding: 15px; 
+            background: linear-gradient(to right, var(--orange), #ea580c);
+            color: white; font-weight: bold; border: none; font-size: 16px; 
+            cursor: pointer; border-radius: 12px; margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(234, 88, 12, 0.4);
+        }
+        .pdf-btn:hover { background: #ea580c; }
+
+        #loader {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(255,255,255,0.95); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: var(--sbi-purple); font-size: 18px;
+        }
+
+        @media print {
+            .input-card, .pdf-btn, .btn-group { display: none !important; }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+            .person-card { border: 1px solid #000; box-shadow: none; margin-bottom: 20px; }
+            .main-header { box-shadow: none; border: 1px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader">कनेक्ट करत आहे...</div>
+
+<div class="container">
+    <div class="main-header">
+        <div class="header-title">
+            <h1>Task Manager</h1>
+        </div>
+        <div class="header-date">
+            <div class="day" id="dayName">वार</div>
+            <div class="date" id="fullDate">DD MM YYYY</div>
+        </div>
+    </div>
+
+    <div class="input-card">
+        <div class="input-row">
+            <input type="text" id="personInput" placeholder="👤 कोणाचे काम आहे? (Person Name)">
+        </div>
+        <div class="input-row">
+            <input type="text" id="taskInput" placeholder="📝 कामाचे नाव (Task)">
+        </div>
+        <button class="add-btn" id="addBtn">Add Task</button>
+    </div>
+
+    <div id="mainList"></div>
+
+    <button class="pdf-btn" onclick="window.print()">📄 PDF रिपोर्ट काढा</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Same Config as before
+    const firebaseConfig = {
+      apiKey: "AIzaSyDm85K2wDKT_uYOWndPJLOaWSudyppk8Ew",
+      authDomain: "task-c106f.firebaseapp.com",
+      projectId: "task-c106f",
+      storageBucket: "task-c106f.firebasestorage.app",
+      messagingSenderId: "569746777624",
+      appId: "1:569746777624:web:59b0d52ea9ed3582d4456d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const tasksCol = collection(db, "tasks");
+
+    const mainList = document.getElementById('mainList');
+    const personInput = document.getElementById('personInput');
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const loader = document.getElementById('loader');
+
+    // Date
+    const today = new Date();
+    document.getElementById('dayName').innerText = today.toLocaleDateString('mr-IN', { weekday: 'long' });
+    document.getElementById('fullDate').innerText = today.toLocaleDateString('mr-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const getMidnight = (d) => { const date = new Date(d); date.setHours(0,0,0,0); return date.getTime(); }
+
+    // --- REALTIME DATA ---
+    const q = query(tasksCol, orderBy("createdAt", "asc"));
+
+    onSnapshot(q, (snapshot) => {
+        const tasksByPerson = {}; 
+        const todayTs = getMidnight(new Date());
+        const oneDayMs = 24 * 60 * 60 * 1000;
+
+        snapshot.forEach((docSnap) => {
+            const task = docSnap.data();
+            const id = docSnap.id;
+            const pName = task.person || "General"; 
+
+            if (!tasksByPerson[pName]) tasksByPerson[pName] = [];
+
+            // Status Logic
+            let status = 'new';
+            let badge = '';
+            
+            if (!task.completed) {
+                const taskTs = getMidnight(task.createdAt);
+                const diffTime = todayTs - taskTs;
+                const diffDays = Math.floor(diffTime / oneDayMs);
+
+                if (diffDays >= 2) { status = 'red'; badge = `${diffDays} days old`; }
+                else if (diffDays >= 1) { status = 'orange'; badge = `Yesterday`; }
+            } else {
+                status = 'done';
+            }
+
+            tasksByPerson[pName].push({ id, ...task, status, badge });
+        });
+
+        renderUI(tasksByPerson);
+        loader.style.display = 'none';
+    });
+
+    // --- RENDER ---
+    function renderUI(groupedData) {
+        mainList.innerHTML = '';
+        const sortedPeople = Object.keys(groupedData).sort();
+
+        if (sortedPeople.length === 0) {
+            mainList.innerHTML = '<div style="text-align:center; color:white; padding:20px;">Task List is Empty</div>';
+            return;
+        }
+
+        sortedPeople.forEach(person => {
+            const tasks = groupedData[person];
+            
+            const card = document.createElement('div');
+            card.className = 'person-card';
+
+            let tasksHtml = '';
+            let srNo = 1;
+
+            tasks.forEach(t => {
+                let badgeSpan = t.badge ? `<span class="task-badge" style="background:${t.status === 'red' ? '#dc2626' : '#f97316'}">${t.badge}</span>` : '';
+                
+                let liClass = '';
+                if(t.status === 'red') liClass = 'red-task';
+                else if(t.status === 'orange') liClass = 'orange-task';
+                else if(t.status === 'done') liClass = 'done-task';
+                else liClass = 'new-task';
+
+                tasksHtml += `
+                    <li class="${liClass}">
+                        <div style="font-weight:bold; color:#280071; width:25px;">${srNo++}.</div>
+                        <div class="task-info">
+                            <span class="task-text">${t.text}</span>
+                            ${badgeSpan}
+                        </div>
+                        <div class="btn-group">
+                            <button class="action-btn edit-btn" onclick="editTask('${t.id}', '${t.text}')">✏️</button>
+                            ${t.status !== 'done' ? 
+                                `<button class="action-btn check-btn" onclick="markDone('${t.id}')">✔</button>` : 
+                                `<button class="action-btn del-btn" onclick="delTask('${t.id}')">🗑️</button>`
+                            }
+                        </div>
+                    </li>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="person-name">👤 ${person}</div>
+                </div>
+                <ul>${tasksHtml}</ul>
+            `;
+            mainList.appendChild(card);
+        });
+    }
+
+    addBtn.addEventListener('click', async () => {
+        const pName = personInput.value.trim();
+        const tText = taskInput.value.trim();
+        if (!pName || !tText) { alert("नाव आणि काम दोन्ही लिहा!"); return; }
+
+        addBtn.disabled = true;
+        await addDoc(tasksCol, { 
+            text: tText, person: pName, completed: false, createdAt: Date.now() 
+        });
+        taskInput.value = '';
+        addBtn.disabled = false;
+    });
+
+    // Global Functions for HTML onClick
+    window.markDone = async (id) => { await updateDoc(doc(db, "tasks", id), { completed: true }); };
+    window.delTask = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db, "tasks", id)); };
+    window.editTask = async (id, oldText) => {
+        const newText = prompt("Update Task:", oldText);
+        if (newText && newText.trim() !== "") await updateDoc(doc(db, "tasks", id), { text: newText.trim() });
+    };
+
+</script>
+
+</body>
+</html>
