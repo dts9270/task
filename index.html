@@ -11,23 +11,24 @@
 
     <style>
         :root {
-            /* Sankalp Theme */
-            --saffron: #ff9933;
-            --maroon: #800000;
-            --royal-blue: #002D62;
+            /* SANATAN THEME */
+            --bhagwa: #ff9933;         
+            --maroon: #800000;         
+            --soft-cream: #fff5e6;     
             --bg-gradient: linear-gradient(135deg, #ff9933 0%, #ff5e62 100%);
-            --green: #16a34a;
-            --red-alert: #dc2626;
+            --success-green: #1a6b36;  
             --text-dark: #2d3436;
+            --alert-red: #c0392b;
         }
 
         body {
             font-family: 'Gotu', sans-serif;
             background: var(--bg-gradient);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             color: var(--text-dark);
             min-height: 100vh;
+            padding-bottom: 80px; 
         }
 
         .container {
@@ -39,190 +40,146 @@
             gap: 15px;
         }
 
-        /* HEADER */
+        /* --- UI STYLES (App Interface) --- */
         .main-header {
             background: #ffffff;
-            border-radius: 15px;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 12px;
+            padding: 15px;
             border-bottom: 5px solid var(--maroon);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; flex-direction: column; gap: 10px;
         }
 
-        .header-title h1 {
-            margin: 0;
-            font-family: 'Yatra One', cursive;
-            font-size: 32px;
-            color: var(--maroon);
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .app-name { font-family: 'Yatra One', cursive; font-size: 30px; color: var(--maroon); margin: 0; }
+
+        .date-picker-wrapper input {
+            padding: 6px 10px; border: 2px solid var(--bhagwa); background: var(--soft-cream);
+            border-radius: 6px; font-size: 14px; font-weight: 600; color: var(--maroon);
+            font-family: 'Gotu', sans-serif; outline: none;
         }
 
-        .date-picker-container input {
-            padding: 8px 12px;
-            border: 2px solid var(--saffron);
-            background: #fff5e6;
-            border-radius: 8px;
-            font-weight: 600;
-            color: var(--maroon);
-            cursor: pointer;
-            font-family: 'Gotu', sans-serif;
-            outline: none;
+        .panchang-strip {
+            background: #fff0e0; padding: 8px; border-radius: 8px; text-align: center;
+            font-size: 15px; font-weight: 600; color: #444; border: 1px dashed var(--bhagwa);
         }
+        .panchang-highlight { color: var(--maroon); font-weight: bold; font-family: 'Yatra One', cursive; }
 
-        /* TABS */
-        .tab-container { display: flex; gap: 10px; padding: 0 5px; }
-
+        .tab-container { display: flex; gap: 8px; }
         .tab-btn {
-            flex: 1; padding: 12px;
-            border: 2px solid rgba(255,255,255,0.4);
-            background: rgba(255, 255, 255, 0.2); 
-            color: white;
-            border-radius: 10px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: 0.3s;
-            font-family: 'Gotu', sans-serif;
+            flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.25); color: white; border-radius: 8px;
+            font-weight: 700; cursor: pointer; transition: 0.2s; font-family: 'Gotu', sans-serif;
         }
-        .tab-btn.active {
-            background: white; 
-            color: var(--maroon);
-            border-color: white; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+        .tab-btn.active { background: white; color: var(--maroon); }
 
-        /* INPUT */
         .input-card {
-            background: white; padding: 20px; border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            display: flex; flex-direction: column; gap: 12px;
-            border-top: 5px solid var(--saffron);
+            background: white; padding: 15px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px; 
+            border-top: 4px solid var(--bhagwa);
         }
-        .input-row { display: flex; gap: 10px; }
-        
+        .input-row { display: flex; gap: 8px; }
         input[type="text"] {
-            padding: 12px; border: 2px solid #eee;
-            border-radius: 8px; font-size: 16px; outline: none; flex: 1;
-            font-family: 'Gotu', sans-serif;
-            background: #fafafa;
+            padding: 10px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; outline: none; flex: 1;
+            font-family: 'Gotu', sans-serif; background: #fafafa;
         }
-        input[type="text"]:focus { border-color: var(--saffron); background: white; }
+        input[type="text"]:focus { border-color: var(--bhagwa); background: white; }
 
         button.add-btn {
-            background: var(--maroon); 
-            color: white; border: none;
-            padding: 12px; border-radius: 8px; 
-            font-size: 18px; cursor: pointer;
-            width: 100%; font-weight: 700; 
-            font-family: 'Gotu', sans-serif;
+            background: var(--maroon); color: white; border: none; padding: 10px; border-radius: 6px; 
+            font-size: 17px; cursor: pointer; width: 100%; font-weight: 700; font-family: 'Gotu', sans-serif;
             box-shadow: 0 4px 6px rgba(128, 0, 0, 0.3);
         }
 
-        /* PERSON CARD & LIST */
         .person-card {
-            background: white; border-radius: 12px; overflow: hidden;
-            margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
+            background: white; border-radius: 10px; overflow: hidden; margin-bottom: 12px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
         .card-header {
-            background: #fff5e6;
-            padding: 10px 15px;
-            border-left: 5px solid var(--maroon);
-            font-weight: 700; 
-            color: var(--maroon);
-            font-size: 18px;
+            background: var(--soft-cream); padding: 8px 12px; border-left: 5px solid var(--maroon);
+            font-weight: 700; color: var(--maroon); font-size: 17px;
         }
 
         ul { list-style: none; padding: 0; margin: 0; }
-        
-        li {
-            padding: 12px 15px; border-bottom: 1px solid #f1f5f9;
-            display: flex; align-items: center; gap: 10px; background: white;
-        }
+        li { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; background: white; }
 
-        /* COLORS */
-        li.pending-1 { background-color: #fff1f2; border-left: 4px solid #fda4af; }
-        li.pending-2 { background-color: #ffe4e6; border-left: 4px solid #f43f5e; }
-        li.pending-critical { 
-            background-color: #fee2e2; border-left: 4px solid #991b1b; 
-            color: #7f1d1d; font-weight: 700;
-        }
-        li.new-task { border-left: 4px solid var(--saffron); }
-        li.done-task { border-left: 4px solid var(--green); background: #f0fdf4; opacity: 1; }
-        li.done-task .task-text { text-decoration: none; color: #15803d; font-weight: 600; }
+        li.new-task { border-left: 4px solid var(--bhagwa); }
+        li.pending-1 { background-color: #fff0f0; border-left: 4px solid #ff7675; }
+        li.pending-critical { background-color: #ffcccc; border-left: 4px solid #b71540; font-weight: 700; }
+        li.done-task { border-left: 4px solid var(--success-green); background: #f0fdf4; }
+        li.done-task .task-text { color: var(--success-green); font-weight: 600; }
 
-        .sr-no { font-weight: bold; color: var(--maroon); margin-right: 5px; min-width: 20px; }
+        .sr-no { font-weight: bold; color: var(--maroon); margin-right: 5px; min-width: 25px; font-size: 15px; }
         .task-info { flex: 1; display: flex; flex-direction: column; }
         .task-text { font-size: 16px; line-height: 1.4; }
-        
-        .task-time {
-            font-size: 12px; color: #888; margin-top: 4px; font-weight: 500;
-            display: flex; align-items: center; gap: 4px;
-        }
-        
-        .badge {
-            font-size: 11px; padding: 3px 8px; border-radius: 4px; 
-            display: inline-block; width: fit-content; margin-top: 5px;
-            font-weight: bold; text-transform: uppercase;
-        }
-        .badge-red { background: #b91c1c; color: white; }
-        .badge-orange { background: #c2410c; color: white; }
+        .task-time { font-size: 12px; color: #888; margin-top: 3px; }
 
-        .btn-group { display: flex; gap: 8px; }
-        .action-btn {
-            width: 34px; height: 34px; border-radius: 8px; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 15px;
-        }
-        .edit-btn { background: #eff6ff; color: var(--royal-blue); }
-        .check-btn { background: #f0fdf4; color: var(--green); }
-        .del-btn { background: #fef2f2; color: var(--red-alert); }
-        .undo-btn { background: #fff7ed; color: var(--saffron); }
+        .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; display: inline-block; width: fit-content; margin-top: 4px; font-weight: bold; }
+        .badge-orange { background: #e67e22; color: white; }
+        .badge-red { background: #c0392b; color: white; }
 
-        /* PDF BTN */
+        .btn-group { display: flex; gap: 5px; }
+        .action-btn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .edit-btn { background: #fff5e6; color: var(--maroon); }
+        .check-btn { background: #e8f5e9; color: var(--success-green); }
+        .del-btn { background: #fde8e8; color: var(--alert-red); }
+        .undo-btn { background: #fff0e0; color: var(--bhagwa); }
+
         .pdf-btn {
-            width: 100%; padding: 15px; 
-            background: var(--royal-blue);
-            color: white; font-weight: 700; border: none; 
-            border-radius: 12px; margin-top: 10px;
-            font-family: 'Gotu', sans-serif;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0, 45, 98, 0.3);
+            width: 100%; padding: 12px; background: var(--maroon); color: white; 
+            font-weight: 700; border: none; border-radius: 10px; margin-top: 5px; 
+            font-family: 'Gotu', sans-serif; font-size: 16px; box-shadow: 0 4px 10px rgba(128, 0, 0, 0.3);
         }
 
-        #loader {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(255,255,255,0.98); z-index: 1000;
-            display: flex; justify-content: center; align-items: center;
-            font-weight: 700; color: var(--maroon); font-size: 20px;
-            font-family: 'Yatra One', cursive;
+        /* Floating Stats */
+        .floating-stats {
+            position: fixed; bottom: 30px; right: 20px; width: 85px; height: 85px;
+            background: linear-gradient(135deg, var(--maroon), #600000); color: white;
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            border: 3px solid var(--bhagwa); z-index: 1000;
         }
-        .empty-msg { text-align: center; color: #fff; margin-top: 30px; font-size: 18px; opacity: 0.9; }
+        .stat-numbers { font-family: 'Yatra One', cursive; font-size: 26px; margin-bottom: 2px; }
+        .stat-label { font-size: 11px; font-weight: 600; color: var(--bhagwa); text-transform: uppercase; }
+
+        /* --- PDF SPECIFIC STYLES (Hidden from UI) --- */
+        #pdf-template { display: none; } /* Only used when generating PDF */
+
     </style>
 </head>
 <body>
 
-<div id="loader">संकल्प लोड होत आहे...</div>
+<div id="loader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:2000;display:flex;justify-content:center;align-items:center;font-family:'Yatra One';color:#800000;font-size:24px;">संकल्प लोड होत आहे...</div>
 
-<div class="container" id="contentToPrint">
+<audio id="alarmSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+
+<div class="floating-stats">
+    <div class="stat-circle-content">
+        <div class="stat-numbers">
+            <span id="statDone">०</span><span style="opacity:0.6;font-size:20px;">/</span><span id="statTotal">०</span>
+        </div>
+        <div class="stat-label">पूर्ण</div>
+    </div>
+</div>
+
+<div class="container">
     <div class="main-header">
-        <div class="header-title">
-            <h1>संकल्प</h1>
+        <div class="header-top">
+            <h1 class="app-name">🚩 संकल्प</h1>
+            <div style="display:flex; align-items:center;">
+                <button class="action-btn" id="alarmToggle" style="margin-right:10px; border:2px solid #800000;">🔔</button>
+                <div class="date-picker-wrapper"><input type="date" id="dateSelector"></div>
+            </div>
         </div>
-        <div class="date-picker-container" data-html2canvas-ignore="true">
-            <input type="date" id="dateSelector">
-        </div>
+        <div class="panchang-strip" id="panchangText">लोड होत आहे...</div>
     </div>
 
-    <div class="tab-container" data-html2canvas-ignore="true">
+    <div class="tab-container">
         <button class="tab-btn active" id="btnPending" onclick="switchTab('pending')">⏳ बाकी (Pending)</button>
         <button class="tab-btn" id="btnHistory" onclick="switchTab('history')">✅ पूर्ण (History)</button>
     </div>
 
-    <div class="input-card" id="inputCard" data-html2canvas-ignore="true">
+    <div class="input-card" id="inputCard">
         <div class="input-row">
             <input type="text" id="personInput" placeholder="👤 कोणाचे काम आहे?">
         </div>
@@ -233,8 +190,51 @@
     </div>
 
     <div id="mainList"></div>
+    <button class="pdf-btn" id="dlBtn" onclick="generateProfessionalPDF()">📄 रिपोर्ट आणि विश्लेषण (PDF)</button>
+</div>
 
-    <button class="pdf-btn" id="dlBtn" onclick="downloadPDF()" data-html2canvas-ignore="true">📄 लिस्ट डाऊनलोड करा (PDF)</button>
+<div id="pdf-template">
+    <div style="padding: 20px; font-family: 'Gotu', sans-serif; color: #333; border: 5px solid #800000; height: 98%;">
+        
+        <div style="text-align: center; border-bottom: 2px solid #ff9933; padding-bottom: 10px; margin-bottom: 20px;">
+            <h1 style="font-family: 'Yatra One'; color: #800000; margin: 0; font-size: 36px;">🚩 संकल्प - कार्य अहवाल</h1>
+            <p style="margin: 5px 0; color: #555; font-size: 14px;">तुमचा वैयक्तिक कार्य व्यवस्थापक</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 15px; font-weight: bold; background: #fff5e6; padding: 10px; border-radius: 5px;">
+                <span id="pdf-date">तारीख: -</span>
+                <span id="pdf-day">वार: -</span>
+                <span id="pdf-tithi">तिथी: -</span>
+            </div>
+        </div>
+
+        <div style="background: #f0f8ff; border: 1px solid #0056b3; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; color: #0056b3; font-family: 'Yatra One';">🤖 संकल्प स्मार्ट विश्लेषण (Analysis)</h3>
+            <div style="display: flex; justify-content: space-around; margin-bottom: 10px;">
+                <div style="text-align: center;"><strong>एकूण कामे</strong><br><span id="an-total" style="font-size:20px;">०</span></div>
+                <div style="text-align: center;"><strong>पूर्ण</strong><br><span id="an-done" style="font-size:20px; color:green;">०</span></div>
+                <div style="text-align: center;"><strong>बाकी</strong><br><span id="an-pending" style="font-size:20px; color:red;">०</span></div>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ccc;">
+            <p><strong>💡 सल्ला (Feedback):</strong> <span id="an-advice" style="color: #333; font-style: italic;">डेटा लोड होत आहे...</span></p>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+                <tr style="background: #800000; color: white;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">क्र.</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">कोणाचे काम</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">कामाचे स्वरूप</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">वेळ</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">स्थिती</th>
+                </tr>
+            </thead>
+            <tbody id="pdf-table-body">
+                </tbody>
+        </table>
+
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; font-size: 12px; color: #888;">
+            Generated by Sankalp App • Be Productive
+        </div>
+    </div>
 </div>
 
 <script type="module">
@@ -262,55 +262,106 @@
     const addBtn = document.getElementById('addBtn');
     const loader = document.getElementById('loader');
     const dateSelector = document.getElementById('dateSelector');
-    
+    const panchangText = document.getElementById('panchangText');
+    const statDone = document.getElementById('statDone');
+    const statTotal = document.getElementById('statTotal');
+    const alarmToggle = document.getElementById('alarmToggle');
+    const alarmSound = document.getElementById('alarmSound');
+
     let currentTab = 'pending'; 
     let allData = [];
+    let isAlarmActive = false;
+    let alarmInterval;
+
+    // Helper: Marathi Numbers
+    const toMarathiNums = (num) => {
+        const marathiMap = { '0': '०', '1': '१', '2': '२', '3': '३', '4': '४', '5': '५', '6': '६', '7': '७', '8': '८', '9': '९' };
+        return num.toString().split('').map(char => marathiMap[char] || char).join('');
+    };
+
+    // --- ALARM ---
+    alarmToggle.addEventListener('click', () => {
+        if (!("Notification" in window)) { alert("ब्राउझर सपोर्ट नाही."); return; }
+        if (!isAlarmActive) {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    isAlarmActive = true;
+                    alarmToggle.style.backgroundColor = "#800000";
+                    alarmToggle.style.color = "white";
+                    alert("🔔 नोटिफिकेशन चालू!");
+                    checkPendingTasks();
+                    alarmInterval = setInterval(checkPendingTasks, 60 * 60 * 1000); 
+                }
+            });
+        } else {
+            isAlarmActive = false;
+            alarmToggle.style.backgroundColor = "transparent";
+            alarmToggle.style.color = "#800000";
+            clearInterval(alarmInterval);
+            alert("🔕 नोटिफिकेशन बंद.");
+        }
+    });
+
+    function checkPendingTasks() {
+        if (!isAlarmActive) return;
+        const pendingCount = allData.filter(t => !t.completed).length;
+        if (pendingCount > 0) {
+            alarmSound.play().catch(e => console.log("Audio needed"));
+            new Notification("संकल्प अलर्ट!", { body: `${toMarathiNums(pendingCount)} कामे बाकी आहेत!` });
+        }
+    }
+
+    // --- PANCHANG LOGIC ---
+    const getTithi = (date) => {
+        const knownNewMoon = new Date('2000-01-06T18:14:00Z'); 
+        const cycleLength = 29.53058867;
+        const diffDays = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+        const age = (diffDays % cycleLength + cycleLength) % cycleLength;
+        const tithiIndex = Math.floor((age / cycleLength) * 30) + 1;
+        const paksha = (tithiIndex <= 15) ? "शुक्ल पक्ष" : "कृष्ण पक्ष";
+        const tithiNames = ["", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पौर्णिमा/अमावास्या"];
+        let tithiName = (tithiIndex === 15) ? "पौर्णिमा" : (tithiIndex === 30 || tithiIndex === 0) ? "अमावास्या" : tithiNames[(tithiIndex > 15) ? tithiIndex - 15 : tithiIndex];
+        return `${paksha}, ${tithiName}`;
+    };
+
+    const updatePanchang = (dateStr) => {
+        const d = new Date(dateStr);
+        const dateFull = toMarathiNums(d.toLocaleDateString('mr-IN', { day: '2-digit', month: 'long', year: 'numeric' }));
+        const dayName = d.toLocaleDateString('mr-IN', { weekday: 'long' });
+        const tithi = getTithi(d);
+        panchangText.innerHTML = `📅 <span class="panchang-highlight">${dateFull}</span> &nbsp;|&nbsp; <span class="panchang-highlight">${dayName}</span> &nbsp;|&nbsp; ${tithi}`;
+    };
 
     const formatDate = (date) => {
         const d = new Date(date);
         let month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
+        if (month.length < 2) month = '0' + month; if (day.length < 2) day = '0' + day;
         return [year, month, day].join('-');
     };
 
     const formatTimeDisplay = (timestamp) => {
         const d = new Date(timestamp);
-        return d.toLocaleString('en-IN', {
-            day: 'numeric', month: 'short',
-            hour: 'numeric', minute: '2-digit', hour12: true
-        });
+        return toMarathiNums(d.toLocaleString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }));
     };
 
-    const getDaysDiff = (date1, date2) => {
-        const oneDay = 24 * 60 * 60 * 1000;
-        const d1 = new Date(date1); d1.setHours(0,0,0,0);
-        const d2 = new Date(date2); d2.setHours(0,0,0,0);
-        return Math.round((d2 - d1) / oneDay);
-    };
-
+    // --- MAIN LOGIC ---
     const today = new Date();
     const todayStr = formatDate(today);
     dateSelector.value = todayStr;
+    updatePanchang(todayStr);
 
     window.switchTab = (tabName) => {
         currentTab = tabName;
         document.getElementById('btnPending').className = `tab-btn ${tabName === 'pending' ? 'active' : ''}`;
         document.getElementById('btnHistory').className = `tab-btn ${tabName === 'history' ? 'active' : ''}`;
-        
-        if(tabName === 'history') inputCard.style.display = 'none';
-        else inputCard.style.display = 'flex';
-
+        inputCard.style.display = (tabName === 'history') ? 'none' : 'flex';
         renderUI();
     };
 
     const q = query(tasksCol);
-
     onSnapshot(q, (snapshot) => {
         allData = [];
-        snapshot.forEach((docSnap) => {
-            allData.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        snapshot.forEach((docSnap) => { allData.push({ id: docSnap.id, ...docSnap.data() }); });
         renderUI();
         loader.style.display = 'none';
     });
@@ -320,26 +371,32 @@
         const selectedDateStr = dateSelector.value;
         const isTodayView = (selectedDateStr === todayStr);
 
+        // Filter Logic
         const filteredTasks = allData.filter(t => {
             const tDateStr = formatDate(t.createdAt);
-            
             if (currentTab === 'pending') {
-                if (t.completed) return false; 
-                if (isTodayView) {
-                    return tDateStr === todayStr || tDateStr < todayStr;
-                } else {
-                    return tDateStr === selectedDateStr;
-                }
+                return !t.completed && (isTodayView ? (tDateStr <= todayStr) : (tDateStr === selectedDateStr));
             } else {
                 return t.completed && tDateStr === selectedDateStr;
             }
         });
 
+        // Stats Logic
+        let sTotal = 0, sDone = 0;
+        allData.forEach(t => {
+            const tDateStr = formatDate(t.createdAt);
+            let relevant = isTodayView ? (tDateStr <= todayStr && (!t.completed || tDateStr === todayStr)) : (tDateStr === selectedDateStr);
+            if (relevant) { sTotal++; if (t.completed) sDone++; }
+        });
+        statDone.innerText = toMarathiNums(sDone);
+        statTotal.innerText = toMarathiNums(sTotal);
+
+        // Render List
         const groupedData = {};
         filteredTasks.forEach(t => {
-            const pName = t.person || "General";
-            if (!groupedData[pName]) groupedData[pName] = [];
-            groupedData[pName].push(t);
+            const p = t.person || "General";
+            if (!groupedData[p]) groupedData[p] = [];
+            groupedData[p].push(t);
         });
 
         const sortedPeople = Object.keys(groupedData).sort();
@@ -352,47 +409,32 @@
         sortedPeople.forEach(person => {
             let tasks = groupedData[person];
             tasks.sort((a, b) => a.createdAt - b.createdAt);
-
             const card = document.createElement('div');
             card.className = 'person-card';
-
             let tasksHtml = '';
-            let srNo = 1; 
-            
+            let srNo = 1;
+
             tasks.forEach(t => {
-                let liClass = '';
-                let badgeHtml = '';
+                let liClass = t.completed ? 'done-task' : 'new-task';
                 let timeStr = formatTimeDisplay(t.createdAt);
                 
-                if (t.completed) {
-                    liClass = 'done-task';
-                } else {
-                    const daysOld = getDaysDiff(t.createdAt, today);
-                    if (daysOld === 0) liClass = 'new-task'; 
-                    else if (daysOld === 1) {
-                        liClass = 'pending-1'; 
-                        badgeHtml = `<span class="badge badge-orange">1 दिवस लेट</span>`;
-                    } else if (daysOld === 2) {
-                        liClass = 'pending-2'; 
-                        badgeHtml = `<span class="badge badge-red">2 दिवस लेट</span>`;
-                    } else if (daysOld > 2) {
-                        liClass = 'pending-critical'; 
-                        badgeHtml = `<span class="badge badge-red">⚠️ ${daysOld} दिवस लेट</span>`;
-                    }
+                // Urgency Logic
+                if (!t.completed) {
+                   const d1 = new Date(t.createdAt); d1.setHours(0,0,0,0);
+                   const d2 = new Date(); d2.setHours(0,0,0,0);
+                   const daysOld = Math.round((d2 - d1) / (1000*60*60*24));
+                   if(daysOld > 0) liClass = daysOld > 2 ? 'pending-critical' : 'pending-1';
                 }
 
-                // Add data-html2canvas-ignore to button group so buttons don't print in PDF
                 tasksHtml += `
                     <li class="${liClass}">
-                        <div class="sr-no">${srNo++}.</div>
+                        <div class="sr-no">${toMarathiNums(srNo++)}.</div>
                         <div class="task-info">
                             <span class="task-text">${t.text}</span>
                             <div class="task-time">📅 ${timeStr}</div>
-                            ${badgeHtml}
                         </div>
-                        <div class="btn-group" data-html2canvas-ignore="true">
+                        <div class="btn-group">
                             <button class="action-btn edit-btn" onclick="editTask('${t.id}', '${t.text}')">✎</button>
-                            
                             ${!t.completed ? 
                                 `<button class="action-btn check-btn" onclick="toggleStatus('${t.id}', true)">✔</button>` : 
                                 `<button class="action-btn undo-btn" onclick="toggleStatus('${t.id}', false)">↺</button>
@@ -402,69 +444,101 @@
                     </li>
                 `;
             });
-
-            card.innerHTML = `
-                <div class="card-header">👤 ${person}</div>
-                <ul>${tasksHtml}</ul>
-            `;
+            card.innerHTML = `<div class="card-header">👤 ${person}</div><ul>${tasksHtml}</ul>`;
             mainList.appendChild(card);
         });
     }
 
-    dateSelector.addEventListener('change', renderUI);
-
+    // --- EVENTS ---
+    dateSelector.addEventListener('change', () => { updatePanchang(dateSelector.value); renderUI(); });
+    
     addBtn.addEventListener('click', async () => {
-        const pName = personInput.value.trim();
-        const tText = taskInput.value.trim();
-        if (!pName || !tText) { alert("नाव आणि काम दोन्ही लिहा!"); return; }
-
+        if (!personInput.value.trim() || !taskInput.value.trim()) { alert("नाव आणि काम दोन्ही लिहा!"); return; }
         const selDate = new Date(dateSelector.value);
-        const now = new Date();
-        selDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
-
+        const now = new Date(); selDate.setHours(now.getHours(), now.getMinutes());
         addBtn.disabled = true;
-        await addDoc(tasksCol, { 
-            text: tText, person: pName, completed: false, createdAt: selDate.getTime() 
-        });
-        taskInput.value = '';
-        addBtn.disabled = false;
+        await addDoc(tasksCol, { text: taskInput.value.trim(), person: personInput.value.trim(), completed: false, createdAt: selDate.getTime() });
+        taskInput.value = ''; addBtn.disabled = false;
     });
 
-    window.secureDelete = async (id) => {
-        const password = prompt("पासवर्ड (2708) टाका:");
-        if (password === "2708") {
-            if(confirm("कायमचे डिलीट करायचे का?")) await deleteDoc(doc(db, "tasks", id));
-        } else if (password !== null) alert("चुकीचा पासवर्ड!");
-    };
+    window.secureDelete = async (id) => { if(prompt("पासवर्ड (2708):") === "2708") await deleteDoc(doc(db, "tasks", id)); else alert("चूक!"); };
+    window.toggleStatus = async (id, s) => { await updateDoc(doc(db, "tasks", id), { completed: s }); };
+    window.editTask = async (id, old) => { const n = prompt("बदल करा:", old); if(n) await updateDoc(doc(db, "tasks", id), { text: n.trim() }); };
 
-    window.toggleStatus = async (id, status) => { await updateDoc(doc(db, "tasks", id), { completed: status }); };
-    window.editTask = async (id, oldText) => {
-        const newText = prompt("बदल करा:", oldText);
-        if (newText && newText.trim() !== "") await updateDoc(doc(db, "tasks", id), { text: newText.trim() });
-    };
-
-    // --- NEW DIRECT DOWNLOAD FUNCTION ---
-    window.downloadPDF = () => {
-        const element = document.getElementById('contentToPrint');
+    // --- PROFESSIONAL PDF GENERATION ---
+    window.generateProfessionalPDF = () => {
         const btn = document.getElementById('dlBtn');
+        btn.innerText = "PDF बनवत आहे..."; btn.disabled = true;
+
+        // 1. Prepare Data for PDF Template
+        const selDate = dateSelector.value;
+        const d = new Date(selDate);
+        document.getElementById('pdf-date').innerText = "तारीख: " + toMarathiNums(d.toLocaleDateString('mr-IN'));
+        document.getElementById('pdf-day').innerText = "वार: " + d.toLocaleDateString('mr-IN', { weekday: 'long' });
+        document.getElementById('pdf-tithi').innerText = "तिथी: " + getTithi(d);
+
+        // 2. Filter Data for Report
+        const reportTasks = allData.filter(t => formatDate(t.createdAt) === selDate || (!t.completed && selDate === todayStr));
         
-        btn.innerText = "PDF बनवत आहे...";
-        btn.disabled = true;
+        let total = reportTasks.length;
+        let done = reportTasks.filter(t => t.completed).length;
+        let pending = total - done;
+        let percentage = total === 0 ? 0 : Math.round((done / total) * 100);
+
+        // 3. Fill Analysis Stats
+        document.getElementById('an-total').innerText = toMarathiNums(total);
+        document.getElementById('an-done').innerText = toMarathiNums(done);
+        document.getElementById('an-pending').innerText = toMarathiNums(pending);
+
+        // 4. Generate Advice (Simulated AI)
+        let advice = "";
+        if (total === 0) advice = "आज कोणतेही काम नोंदवले नाही. नवीन संकल्प करा!";
+        else if (percentage === 100) advice = "अतिशय उत्तम! तुम्ही सर्व कामे पूर्ण केली आहेत. 🌟";
+        else if (percentage >= 75) advice = "खूप छान प्रगती! यशाच्या जवळ आहात. 👍";
+        else if (percentage >= 50) advice = "चाली प्रगती आहे, पण अजून वेग वाढवणे गरजेचे आहे.";
+        else advice = "लक्ष द्या! बरेच काम बाकी आहे. वेळेचे नियोजन करा. ⚠️";
+        document.getElementById('an-advice').innerText = advice;
+
+        // 5. Build Table Rows
+        const tbody = document.getElementById('pdf-table-body');
+        tbody.innerHTML = '';
+        if (reportTasks.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">माहिती उपलब्ध नाही</td></tr>`;
+        } else {
+            reportTasks.forEach((t, index) => {
+                const tr = document.createElement('tr');
+                tr.style.backgroundColor = index % 2 === 0 ? '#fff' : '#f9f9f9';
+                tr.innerHTML = `
+                    <td style="padding:8px; border:1px solid #ddd; text-align:center;">${toMarathiNums(index + 1)}</td>
+                    <td style="padding:8px; border:1px solid #ddd;">${t.person}</td>
+                    <td style="padding:8px; border:1px solid #ddd;">${t.text}</td>
+                    <td style="padding:8px; border:1px solid #ddd;">${formatTimeDisplay(t.createdAt)}</td>
+                    <td style="padding:8px; border:1px solid #ddd; color:${t.completed ? 'green' : 'red'}; font-weight:bold;">
+                        ${t.completed ? 'पूर्ण' : 'बाकी'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 6. Generate PDF
+        const element = document.getElementById('pdf-template');
+        element.style.display = 'block'; // Temporarily show
 
         const opt = {
-          margin:       0.2,
-          filename:     `Sankalp_List_${new Date().toLocaleDateString()}.pdf`,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2 },
-          jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            margin: 0.3,
+            filename: `Sankalp_Report_${toMarathiNums(selDate)}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-            btn.innerText = "📄 लिस्ट डाऊनलोड करा (PDF)";
+            element.style.display = 'none'; // Hide again
+            btn.innerText = "📄 रिपोर्ट आणि विश्लेषण (PDF)";
             btn.disabled = false;
         });
     };
-
 </script>
 
 </body>
