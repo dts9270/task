@@ -6,63 +6,119 @@
     <title>संकल्प (Sankalp)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Yatra+One&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* Styles - (Same as before) */
-        :root { --bhagwa: #ff9933; --maroon: #800000; --soft-cream: #fff5e6; --bg-gradient: linear-gradient(135deg, #ff9933 0%, #ff5e62 100%); --success-green: #1a6b36; --text-dark: #2d3436; }
-        body { font-family: 'Gotu', sans-serif; background: var(--bg-gradient); margin: 0; padding: 10px; color: var(--text-dark); min-height: 100vh; padding-bottom: 120px; }
-        .container { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        .main-header { background: #ffffff; border-radius: 12px; padding: 15px; border-bottom: 5px solid var(--maroon); box-shadow: 0 5px 15px rgba(0,0,0,0.2); position: relative; text-align: center; }
-        .app-name { font-family: 'Yatra One', cursive; font-size: 36px; color: var(--maroon); margin: 0; }
-        .alarm-btn { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--maroon); background: transparent; color: var(--maroon); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .panchang-strip { background: #fff0e0; padding: 8px; border-radius: 8px; text-align: center; font-size: 14px; font-weight: 600; color: #444; border: 1px dashed var(--bhagwa); margin-top: 10px; }
-        .panchang-highlight { color: var(--maroon); font-weight: bold; font-family: 'Yatra One', cursive; }
+        :root {
+            --bhagwa: #ff9933; --maroon: #800000; --soft-cream: #fff5e6;
+            --bg-gradient: linear-gradient(135deg, #ff9933 0%, #ff5e62 100%);
+            --success-green: #1a6b36; --text-dark: #2d3436;
+        }
 
+        body {
+            font-family: 'Gotu', sans-serif; background: var(--bg-gradient);
+            margin: 0; padding: 10px; color: var(--text-dark);
+            min-height: 100vh; padding-bottom: 120px;
+        }
+
+        .container { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+
+        /* Header */
+        .main-header {
+            background: #ffffff; border-radius: 12px; padding: 15px;
+            border-bottom: 5px solid var(--maroon); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center; position: relative;
+        }
+        .app-name { font-family: 'Yatra One', cursive; font-size: 36px; color: var(--maroon); margin: 0; }
+        
+        .alarm-btn {
+            position: absolute; top: 15px; right: 15px; width: 35px; height: 35px;
+            border-radius: 50%; border: 2px solid var(--maroon); background: transparent;
+            color: var(--maroon); cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .panchang-strip {
+            background: #fff0e0; padding: 8px; border-radius: 8px; margin-top: 10px;
+            font-weight: 600; color: #444; border: 1px dashed var(--bhagwa); font-size: 14px;
+        }
+        .panchang-highlight { color: var(--maroon); font-weight: bold; font-family: 'Yatra One'; }
+
+        /* Tabs */
         .tab-container { display: flex; gap: 8px; }
-        .tab-btn { flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,0.4); background: rgba(255, 255, 255, 0.25); color: white; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: 'Gotu', sans-serif; font-size: 16px; }
+        .tab-btn {
+            flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.25); color: white; border-radius: 8px;
+            font-weight: 700; cursor: pointer;
+        }
         .tab-btn.active { background: white; color: var(--maroon); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 
-        .input-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px; border-top: 4px solid var(--bhagwa); }
-        .input-row input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; outline: none; font-family: 'Gotu', sans-serif; background: #fafafa; box-sizing: border-box; }
-        button.add-btn { background: var(--maroon); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 18px; cursor: pointer; width: 100%; font-weight: 700; font-family: 'Gotu', sans-serif; }
+        /* Input */
+        .input-card {
+            background: white; padding: 15px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px;
+        }
+        input[type="text"] {
+            width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px;
+            font-size: 16px; outline: none; box-sizing: border-box; font-family: 'Gotu';
+        }
+        button.add-btn {
+            background: var(--maroon); color: white; border: none; padding: 12px; border-radius: 6px;
+            font-size: 18px; cursor: pointer; width: 100%; font-weight: 700; font-family: 'Gotu';
+        }
 
-        .person-card { background: white; border-radius: 10px; overflow: hidden; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .card-header { background: var(--soft-cream); padding: 8px 12px; border-left: 5px solid var(--maroon); font-weight: 700; color: var(--maroon); font-size: 17px; }
+        /* List */
+        .person-card { background: white; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .card-header { background: var(--soft-cream); padding: 8px 12px; border-left: 5px solid var(--maroon); font-weight: 700; color: var(--maroon); }
         ul { list-style: none; padding: 0; margin: 0; }
         li { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; }
-        li.new-task { border-left: 4px solid var(--bhagwa); }
-        li.done-task { border-left: 4px solid var(--success-green); background: #f0fdf4; opacity: 1; }
-        li.done-task .task-text { text-decoration: none; color: var(--success-green); font-weight: 600; }
-        .task-info { flex: 1; } .task-text { font-size: 16px; line-height: 1.4; } .task-time { font-size: 12px; color: #888; }
-        .btn-group { display: flex; gap: 5px; } .action-btn { width: 34px; height: 34px; border-radius: 6px; border: none; cursor: pointer; }
-        .edit-btn { background: #fff5e6; color: var(--maroon); } .check-btn { background: #e8f5e9; color: var(--success-green); }
-        .del-btn { background: #fde8e8; color: #c0392b; } .undo-btn { background: #fff0e0; color: var(--bhagwa); }
-        .pdf-btn { width: 100%; padding: 12px; background: var(--maroon); color: white; font-weight: 700; border: none; border-radius: 10px; margin-top: 5px; font-family: 'Gotu', sans-serif; font-size: 16px; }
+        li.done-task { background: #f0fdf4; opacity: 0.8; }
+        li.done-task span { text-decoration: line-through; color: green; }
+        
+        .btn-group { display: flex; gap: 5px; }
+        .action-btn { width: 30px; height: 30px; border-radius: 5px; border: none; cursor: pointer; }
+        .check-btn { background: #e8f5e9; color: green; } .del-btn { background: #fee2e2; color: red; }
 
-        .floating-stats { position: fixed; bottom: 30px; right: 20px; width: 85px; height: 85px; background: linear-gradient(135deg, var(--maroon), #600000); color: white; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 3px solid var(--bhagwa); z-index: 1000; }
-        .stat-numbers { font-family: 'Yatra One'; font-size: 26px; } .stat-label { font-size: 11px; font-weight: 600; color: var(--bhagwa); }
+        /* Floating Widgets */
+        .floating-stats {
+            position: fixed; bottom: 30px; right: 20px; width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--maroon), #600000); color: white;
+            border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5); z-index: 1000;
+        }
+        .stat-numbers { font-family: 'Yatra One'; font-size: 24px; }
         
-        .floating-date-picker { position: fixed; bottom: 30px; left: 20px; background: white; border: 3px solid var(--maroon); border-radius: 30px; padding: 10px 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 1000; display: flex; align-items: center; gap: 5px; }
-        .floating-date-picker input { border: none; background: transparent; font-family: 'Yatra One'; font-size: 16px; color: var(--maroon); outline: none; width: 130px; text-align: center; }
-        
+        .floating-date {
+            position: fixed; bottom: 30px; left: 20px; background: white;
+            padding: 10px 15px; border-radius: 30px; border: 3px solid var(--maroon);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 1000; display: flex; align-items: center;
+        }
+        .floating-date input { border: none; outline: none; font-size: 16px; color: var(--maroon); font-family: 'Yatra One'; width: 130px; }
+
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Yatra One'; color: var(--maroon); font-size: 24px;
+            flex-direction: column;
+        }
         #pdf-template { display: none; }
+        .pdf-btn { width: 100%; padding: 12px; background: var(--maroon); color: white; border: none; border-radius: 10px; font-weight: 700; }
     </style>
 </head>
 <body>
 
-<div id="loader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.98);z-index:2000;display:flex;justify-content:center;align-items:center;font-family:'Yatra One';color:#800000;font-size:24px;">संकल्प लोड होत आहे...</div>
-
-<div class="floating-stats">
-    <div class="stat-circle-content">
-        <div class="stat-numbers"><span id="statDone">०</span><span style="opacity:0.6;font-size:20px;">/</span><span id="statTotal">०</span></div>
-        <div class="stat-label">पूर्ण</div>
-    </div>
+<div id="loader">
+    <div>संकल्प लोड होत आहे...</div>
+    <div id="errorMsg" style="font-size:14px; color:red; margin-top:10px;"></div>
 </div>
 
-<div class="floating-date-picker">
-    <span style="font-size:20px;">📅</span>
+<div class="floating-stats">
+    <div class="stat-numbers"><span id="statDone">०</span>/<span id="statTotal">०</span></div>
+    <div style="font-size:10px;">पूर्ण</div>
+</div>
+
+<div class="floating-date">
+    <span>📅</span>
     <input type="date" id="dateSelector">
 </div>
 
@@ -70,43 +126,33 @@
     <div class="main-header">
         <button class="alarm-btn" id="alarmToggle">🔔</button>
         <h1 class="app-name">🚩 संकल्प</h1>
-        <div class="panchang-strip" id="panchangText">लोड होत आहे...</div>
+        <div class="panchang-strip" id="panchangText">..</div>
     </div>
 
     <div class="tab-container">
-        <button class="tab-btn active" id="btnPending" onclick="switchTab('pending')">⏳ बाकी (Pending)</button>
-        <button class="tab-btn" id="btnHistory" onclick="switchTab('history')">✅ पूर्ण (History)</button>
+        <button class="tab-btn active" id="btnPending" onclick="switchTab('pending')">⏳ बाकी</button>
+        <button class="tab-btn" id="btnHistory" onclick="switchTab('history')">✅ पूर्ण</button>
     </div>
 
     <div class="input-card" id="inputCard">
-        <div class="input-row"><input type="text" id="personInput" placeholder="👤 कोणाचे काम आहे?"></div>
-        <div class="input-row" style="margin-top:10px;"><input type="text" id="taskInput" placeholder="📝 कामाचे स्वरूप (Task)"></div>
-        <button class="add-btn" id="addBtn" style="margin-top:10px;">नवीन संकल्प (Add Task)</button>
+        <input type="text" id="personInput" placeholder="👤 कोणाचे काम?">
+        <input type="text" id="taskInput" placeholder="📝 काय काम आहे?" style="margin-top:10px;">
+        <button class="add-btn" id="addBtn" style="margin-top:10px;">नवीन संकल्प (Add)</button>
     </div>
 
     <div id="mainList"></div>
-    <button class="pdf-btn" id="dlBtn" onclick="generateProfessionalPDF()">📄 रिपोर्ट आणि विश्लेषण (PDF)</button>
+    <button class="pdf-btn" id="dlBtn" onclick="genPDF()">📄 रिपोर्ट (PDF)</button>
 </div>
 
-<div id="pdf-template">
-    <div style="padding:20px;font-family:'Gotu';border:5px solid #800000;">
-        <h1 style="text-align:center;color:#800000;">🚩 संकल्प - रिपोर्ट</h1>
-        <div style="display:flex;justify-content:space-between;margin:15px 0;font-weight:bold;">
-            <span id="pdf-date"></span> <span id="pdf-tithi"></span>
-        </div>
-        <table style="width:100%;border-collapse:collapse;margin-top:10px;">
-            <thead><tr style="background:#800000;color:white;"><th style="padding:10px;">क्र.</th><th style="padding:10px;">नाव</th><th style="padding:10px;">काम</th><th style="padding:10px;">वेळ</th></tr></thead>
-            <tbody id="pdf-table-body"></tbody>
-        </table>
-    </div>
-</div>
+<div id="pdf-template"><div style="padding:20px;border:5px solid #800000;"><h1 style="text-align:center;color:#800000;">संकल्प रिपोर्ट</h1><table id="pdf-table" style="width:100%;border-collapse:collapse;"></table></div></div>
 
 <script type="module">
+    // --- IMPORT FIREBASE ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } 
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query } 
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // YOUR FIREBASE CONFIG
+    // --- CONFIG ---
     const firebaseConfig = {
       apiKey: "AIzaSyDm85K2wDKT_uYOWndPJLOaWSudyppk8Ew",
       authDomain: "task-c106f.firebaseapp.com",
@@ -116,143 +162,133 @@
       appId: "1:569746777624:web:59b0d52ea9ed3582d4456d"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const tasksCol = collection(db, "tasks");
+    // --- FORCE START (3 Sec Timeout) ---
+    setTimeout(() => {
+        const l = document.getElementById('loader');
+        if(l && l.style.display !== 'none') {
+            l.style.display = 'none';
+            console.log("Forced Loader Hide");
+        }
+    }, 4000);
 
-    // Refs
-    const mainList = document.getElementById('mainList');
-    const personInput = document.getElementById('personInput');
-    const taskInput = document.getElementById('taskInput');
-    const addBtn = document.getElementById('addBtn');
-    const loader = document.getElementById('loader');
-    const dateSelector = document.getElementById('dateSelector');
-    const panchangText = document.getElementById('panchangText');
-    const statDone = document.getElementById('statDone');
-    const statTotal = document.getElementById('statTotal');
+    // --- INIT ---
+    let db, tasksCol;
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        tasksCol = collection(db, "tasks");
+    } catch(e) {
+        document.getElementById('errorMsg').innerText = "Firebase Error: " + e.message;
+    }
 
-    let currentTab = 'pending'; 
-    let allData = [];
-
-    // Timeout Fix
-    setTimeout(() => { if(loader) loader.style.display = 'none'; }, 3000);
-
-    // Utils
-    const toMarathiNums = (num) => num.toString().split('').map(c => {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'}[c]||c).join('');
+    // --- UTILS ---
+    const toMarathiNums = (n) => n.toString().split('').map(c => {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'}[c]||c).join('');
     const formatDate = (d) => { let m=''+(d.getMonth()+1), da=''+d.getDate(), y=d.getFullYear(); if(m.length<2)m='0'+m; if(da.length<2)da='0'+da; return [y,m,da].join('-'); };
-    const formatTime = (ts) => toMarathiNums(new Date(ts).toLocaleString('en-IN',{hour:'numeric',minute:'2-digit',hour12:true}));
+    
+    // --- STATE ---
+    let allData = [], currentTab = 'pending';
+    const dateSelector = document.getElementById('dateSelector');
+    dateSelector.value = formatDate(new Date());
 
-    // Logic
-    const today = new Date();
-    const todayStr = formatDate(today);
-    dateSelector.value = todayStr;
-    panchangText.innerHTML = `📅 आज: ${toMarathiNums(today.toLocaleDateString('mr-IN'))}`;
+    // --- RENDER ---
+    function render() {
+        const list = document.getElementById('mainList');
+        list.innerHTML = '';
+        const selDate = dateSelector.value;
+        const today = formatDate(new Date());
+        
+        const filtered = allData.filter(t => {
+            const tDate = formatDate(new Date(t.createdAt));
+            if(currentTab === 'pending') return !t.completed && (selDate === today ? tDate <= today : tDate === selDate);
+            return t.completed;
+        });
+
+        // Stats
+        let done=0, total=0;
+        allData.forEach(t => {
+            const tDate = formatDate(new Date(t.createdAt));
+            if(selDate === today ? (tDate <= today || t.completed && tDate===today) : tDate === selDate) {
+                total++; if(t.completed) done++;
+            }
+        });
+        document.getElementById('statDone').innerText = toMarathiNums(done);
+        document.getElementById('statTotal').innerText = toMarathiNums(total);
+
+        // Grouping
+        const groups = {};
+        filtered.forEach(t => { const p = t.person || 'General'; if(!groups[p]) groups[p]=[]; groups[p].push(t); });
+
+        if(filtered.length === 0) { list.innerHTML = '<div style="text-align:center;margin-top:20px;color:#888;">माहिती नाही</div>'; return; }
+
+        Object.keys(groups).sort().forEach(p => {
+            let tasks = groups[p];
+            tasks.sort((a,b) => b.createdAt - a.createdAt);
+            const card = document.createElement('div'); card.className = 'person-card';
+            let html = `<div class="card-header">👤 ${p}</div><ul>`;
+            
+            tasks.forEach((t, i) => {
+                html += `
+                <li class="${t.completed?'done-task':''}">
+                    <span style="font-weight:bold; color:#800000; margin-right:5px;">${toMarathiNums(i+1)}.</span>
+                    <span style="flex:1;">${t.text}</span>
+                    <div class="btn-group">
+                        ${!t.completed ? 
+                        `<button class="action-btn check-btn" onclick="upd('${t.id}',true)">✔</button>` : 
+                        `<button class="action-btn del-btn" onclick="del('${t.id}')">✕</button>`}
+                    </div>
+                </li>`;
+            });
+            html += `</ul>`;
+            card.innerHTML = html;
+            list.appendChild(card);
+        });
+    }
+
+    // --- LISTENERS ---
+    const q = query(tasksCol);
+    onSnapshot(q, (snap) => {
+        allData = [];
+        snap.forEach(d => allData.push({id: d.id, ...d.data()}));
+        render();
+        document.getElementById('loader').style.display = 'none';
+    }, (err) => {
+        document.getElementById('errorMsg').innerText = "Data Load Failed: " + err.message;
+    });
+
+    document.getElementById('addBtn').addEventListener('click', async () => {
+        const p = document.getElementById('personInput').value.trim();
+        const t = document.getElementById('taskInput').value.trim();
+        if(!p || !t) return alert('माहिती भरा');
+        
+        const d = new Date(dateSelector.value); 
+        d.setHours(new Date().getHours());
+        
+        try {
+            await addDoc(tasksCol, { person: p, text: t, completed: false, createdAt: d.getTime() });
+            document.getElementById('taskInput').value = '';
+        } catch(e) { alert("Error Adding: " + e.message); }
+    });
 
     window.switchTab = (t) => {
         currentTab = t;
         document.getElementById('btnPending').className = `tab-btn ${t==='pending'?'active':''}`;
         document.getElementById('btnHistory').className = `tab-btn ${t==='history'?'active':''}`;
         document.getElementById('inputCard').style.display = t==='history'?'none':'flex';
-        renderUI();
-    };
-
-    // LOAD DATA
-    const q = query(tasksCol);
-    onSnapshot(q, (snap) => {
-        allData = [];
-        snap.forEach(d => allData.push({id:d.id, ...d.data()}));
-        renderUI();
-        if(loader) loader.style.display='none';
-    }, (err) => {
-        console.error(err);
-        loader.style.display='none';
-        alert("डेटा लोड एरर: " + err.message + "\nकृपया Firebase Console मध्ये 'Publish' केले आहे का तपासा.");
-    });
-
-    function renderUI() {
-        mainList.innerHTML = '';
-        const selDate = dateSelector.value;
-        const isToday = (selDate === todayStr);
-
-        const filtered = allData.filter(t => {
-            const tDate = formatDate(t.createdAt);
-            if(currentTab === 'pending') return !t.completed && (isToday ? (tDate <= todayStr) : (tDate === selDate));
-            else return t.completed;
-        });
-
-        // Stats
-        let sTotal=0, sDone=0;
-        allData.forEach(t => {
-            const tDate = formatDate(t.createdAt);
-            if(isToday ? (tDate <= todayStr && (!t.completed || tDate === todayStr)) : (tDate === selDate)) { sTotal++; if(t.completed) sDone++; }
-        });
-        statDone.innerText = toMarathiNums(sDone);
-        statTotal.innerText = toMarathiNums(sTotal);
-
-        const grouped = {};
-        filtered.forEach(t => { const p = t.person || "General"; if(!grouped[p]) grouped[p]=[]; grouped[p].push(t); });
-
-        if(filtered.length === 0) { mainList.innerHTML = `<div style="text-align:center;margin-top:50px;color:#888;">माहिती नाही</div>`; return; }
-
-        Object.keys(grouped).sort().forEach(p => {
-            let tasks = grouped[p];
-            tasks.sort((a,b) => currentTab==='history' ? b.createdAt-a.createdAt : a.createdAt-b.createdAt);
-            const card = document.createElement('div'); card.className = 'person-card';
-            let html = ''; let sr = 1;
-            tasks.forEach(t => {
-                html += `
-                    <li class="${t.completed?'done-task':'new-task'}">
-                        <div class="sr-no">${toMarathiNums(sr++)}.</div>
-                        <div class="task-info"><span class="task-text">${t.text}</span><div class="task-time">📅 ${formatTime(t.createdAt)}</div></div>
-                        <div class="btn-group">
-                            <button class="action-btn edit-btn" onclick="editTask('${t.id}','${t.text}')">✎</button>
-                            ${!t.completed ? `<button class="action-btn check-btn" onclick="toggleStatus('${t.id}',true)">✔</button>` : 
-                            `<button class="action-btn undo-btn" onclick="toggleStatus('${t.id}',false)">↺</button><button class="action-btn del-btn" onclick="secureDelete('${t.id}')">✕</button>`}
-                        </div>
-                    </li>`;
-            });
-            card.innerHTML = `<div class="card-header">👤 ${p}</div><ul>${html}</ul>`;
-            mainList.appendChild(card);
-        });
+        render();
     }
 
-    dateSelector.addEventListener('change', renderUI);
+    window.upd = async (id, s) => { await updateDoc(doc(db, "tasks", id), {completed: s}); };
+    window.del = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db, "tasks", id)); };
+    dateSelector.addEventListener('change', render);
 
-    // ADD TASK
-    addBtn.addEventListener('click', async () => {
-        if(!personInput.value.trim() || !taskInput.value.trim()) { alert("दोन्ही रकाने भरा!"); return; }
-        addBtn.disabled = true; addBtn.innerText = "सेव्ह होत आहे...";
-        try {
-            const sd = new Date(dateSelector.value); const now = new Date(); sd.setHours(now.getHours(), now.getMinutes());
-            await addDoc(tasksCol, { text: taskInput.value.trim(), person: personInput.value.trim(), completed: false, createdAt: sd.getTime() });
-            taskInput.value = '';
-        } catch(e) {
-            alert("टास्क सेव्ह झाला नाही! \nकारण: " + e.message + "\nउपाय: Firebase Console मध्ये जाऊन Rules 'Publish' करा.");
-        } finally { addBtn.disabled = false; addBtn.innerText = "नवीन संकल्प (Add Task)"; }
-    });
-
-    window.secureDelete = async (id) => { 
-        const p = prompt("पासवर्ड टाका:"); 
-        if(p === "2708") await deleteDoc(doc(db, "tasks", id)); 
-        else if(p) alert("चूक!"); 
-    };
-    window.toggleStatus = async (id, s) => { await updateDoc(doc(db, "tasks", id), { completed: s }); };
-    window.editTask = async (id, old) => { const n = prompt("बदल:", old); if(n) await updateDoc(doc(db, "tasks", id), { text: n.trim() }); };
-
-    window.generateProfessionalPDF = () => {
-        const btn = document.getElementById('dlBtn');
-        btn.innerText = "PDF..."; btn.disabled = true;
-        const tasks = currentTab === 'history' ? allData.filter(t=>t.completed) : allData.filter(t=>!t.completed);
-        const tbody = document.getElementById('pdf-table-body');
-        tbody.innerHTML = '';
-        tasks.forEach((t, i) => {
-            tbody.innerHTML += `<tr><td style="padding:8px;border:1px solid #ddd;">${toMarathiNums(i+1)}</td><td style="padding:8px;border:1px solid #ddd;">${t.person}</td><td style="padding:8px;border:1px solid #ddd;">${t.text}</td><td style="padding:8px;border:1px solid #ddd;">${formatTime(t.createdAt)}</td></tr>`;
-        });
-        const elem = document.getElementById('pdf-template');
-        elem.style.display = 'block';
-        html2pdf().from(elem).save().then(() => { elem.style.display = 'none'; btn.innerText = "📄 रिपोर्ट आणि विश्लेषण (PDF)"; btn.disabled = false; });
+    // PDF
+    window.genPDF = () => {
+        const rows = allData.filter(t => currentTab==='history' ? t.completed : !t.completed)
+            .map((t,i) => `<tr><td style="padding:5px;border:1px solid #ccc;">${i+1}</td><td style="padding:5px;border:1px solid #ccc;">${t.person}</td><td style="padding:5px;border:1px solid #ccc;">${t.text}</td></tr>`).join('');
+        document.getElementById('pdf-table').innerHTML = rows;
+        const e = document.getElementById('pdf-template'); e.style.display='block';
+        html2pdf().from(e).save().then(() => e.style.display='none');
     };
 </script>
-
 </body>
 </html>
