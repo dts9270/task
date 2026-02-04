@@ -3,281 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>संकल्प Neon Pro</title>
+    <title>संकल्प (Fixed Report)</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Gotu&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            /* NEON SKY BLUE THEME */
-            --bg-body: #050511; /* Deepest Blue/Black */
-            --glass-bg: rgba(255, 255, 255, 0.05); /* Ultra transparent */
-            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-glass: rgba(255, 255, 255, 0.95);
+            --text-dark: #2d3436;
             
-            /* NEON COLORS */
-            --neon-blue: #00f3ff;   /* Sky Blue Neon */
-            --neon-hot: #ff0055;    /* Neon Pink/Red */
-            --neon-warm: #ffcc00;   /* Neon Yellow */
-            --neon-green: #00ff99;  /* Neon Green */
+            /* Colors */
+            --hot: #ff4757; 
+            --warm: #ffa502;
+            --cold: #2ed573;
         }
 
         body {
-            font-family: 'Poppins', 'Gotu', sans-serif;
-            background: radial-gradient(circle at top, #1a1a2e, #050511);
+            font-family: 'Gotu', 'Outfit', sans-serif;
+            background: var(--bg-gradient);
             background-attachment: fixed;
             margin: 0; padding: 15px 10px;
-            color: var(--text-main);
+            color: var(--text-dark);
             min-height: 100vh;
         }
 
-        .container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 
         /* HEADER */
-        .gamified-header {
-            background: rgba(0, 243, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            border-radius: 25px; padding: 25px;
-            color: var(--neon-blue);
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-            position: relative; overflow: hidden;
-        }
-        .gamified-header h1 { 
-            text-shadow: 0 0 10px var(--neon-blue); 
-            letter-spacing: 2px; text-transform: uppercase; 
-        }
-
-        /* SEARCH & FILTER */
-        .search-section { position: sticky; top: 10px; z-index: 100; }
-        
-        .search-box { 
-            display: flex; align-items: center; 
-            background: rgba(255, 255, 255, 0.1); 
+        .app-header {
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            border-radius: 50px; padding: 10px 20px; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px; padding: 20px;
+            text-align: center; color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .search-input { 
-            border: none; background: transparent; outline: none; width: 100%; 
-            color: white; font-size: 16px; font-family: 'Gotu'; 
-        }
-        ::placeholder { color: rgba(255,255,255,0.5); }
+        .app-title { font-size: 30px; font-weight: 700; margin: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
-        .filter-chips { display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .chip {
-            padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: bold; cursor: pointer;
-            background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
+        /* DASHBOARD COUNTER */
+        .stats-row {
+            display: flex; justify-content: space-between;
+            background: rgba(0,0,0,0.2); padding: 10px;
+            border-radius: 15px; margin-top: 15px;
         }
-        .chip.active { 
-            background: var(--neon-blue); color: black; 
-            box-shadow: 0 0 15px var(--neon-blue); border-color: var(--neon-blue);
-        }
+        .stat-box { text-align: center; flex: 1; border-right: 1px solid rgba(255,255,255,0.2); }
+        .stat-box:last-child { border: none; }
+        .stat-num { font-size: 20px; font-weight: 700; color: white; }
+        .stat-lbl { font-size: 12px; color: rgba(255,255,255,0.8); }
 
         /* TABS */
-        .tabs { display: flex; gap: 15px; }
+        .tabs { display: flex; background: rgba(0,0,0,0.15); padding: 5px; border-radius: 15px; }
         .tab { 
-            flex: 1; padding: 12px; text-align: center; font-weight: 600; color: rgba(255,255,255,0.5); 
-            border-radius: 15px; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.05);
+            flex: 1; padding: 12px; text-align: center; font-weight: 600; 
+            color: rgba(255,255,255,0.8); border-radius: 12px; 
+            cursor: pointer; transition: 0.3s; font-size: 15px;
         }
-        .tab.active { 
-            color: var(--neon-blue); border: 1px solid var(--neon-blue); 
-            background: rgba(0, 243, 255, 0.1); 
-            text-shadow: 0 0 8px var(--neon-blue);
+        .tab.active { background: white; color: #764ba2; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-weight: 700; }
+
+        /* INPUT CARD */
+        .glass-input {
+            background: var(--card-glass);
+            border-radius: 24px; padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        /* INPUT PANEL (GLASS) */
-        .glass-panel { 
-            background: var(--glass-bg); backdrop-filter: blur(20px);
-            border: var(--glass-border); padding: 25px; border-radius: 25px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+        .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         
-        input, select { 
-            width: 100%; padding: 15px; margin-bottom: 15px; 
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1);
-            color: white; border-radius: 15px; font-size: 15px; outline: none; 
-            box-sizing: border-box; font-family: 'Gotu', sans-serif; transition: 0.3s;
+        input, select {
+            width: 100%; padding: 14px; border: 2px solid #eee;
+            border-radius: 12px; font-size: 16px; outline: none;
+            font-family: 'Gotu', sans-serif; transition: 0.3s; background: #f9f9f9;
         }
-        input:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
-        
-        select option { background: #050511; color: white; }
+        input:focus, select:focus { border-color: #764ba2; background: white; }
 
-        .input-group-voice { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .add-btn {
+            width: 100%; padding: 16px; margin-top: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 18px; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+            font-family: 'Gotu', sans-serif;
+        }
+
         .mic-btn {
-            background: rgba(255,255,255,0.1); color: var(--neon-hot); border: 1px solid var(--neon-hot);
-            width: 55px; height: 52px; border-radius: 15px; font-size: 24px; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            width: 55px; border: none; background: #ff4757; color: white;
+            border-radius: 12px; font-size: 22px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-        .mic-active { background: var(--neon-hot); color: white; box-shadow: 0 0 20px var(--neon-hot); animation: pulse 1s infinite; }
+        .mic-active { background: #2ed573; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .add-btn { 
-            width: 100%; padding: 16px; 
-            background: linear-gradient(90deg, #00f3ff, #0066ff); 
-            color: black; font-weight: 800; font-size: 16px; border: none; border-radius: 15px; 
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); transition: 0.3s;
-        }
-        .add-btn:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(0, 243, 255, 0.6); }
-
-        /* NEON GLASS CARDS (LIST) */
+        /* LIST */
         .task-card {
-            background: rgba(255, 255, 255, 0.03); /* Almost invisible */
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 20px; margin-bottom: 15px;
+            background: white; border-radius: 18px; padding: 15px; margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             display: flex; align-items: center; justify-content: space-between;
+            border-left: 6px solid #ccc;
             transition: all 0.3s ease;
-            position: relative; overflow: hidden;
-        }
-        
-        /* Flying Hover Effect */
-        .task-card:hover { 
-            transform: translateY(-5px) scale(1.01); 
-            background: rgba(255, 255, 255, 0.07);
         }
 
-        /* Neon Borders for Categories */
-        .card-hot { border-left: 4px solid var(--neon-hot); }
-        .card-hot:hover { box-shadow: 0 0 25px rgba(255, 0, 85, 0.3); border-color: var(--neon-hot); }
-        
-        .card-warm { border-left: 4px solid var(--neon-warm); }
-        .card-warm:hover { box-shadow: 0 0 25px rgba(255, 204, 0, 0.3); border-color: var(--neon-warm); }
-        
-        .card-cold { border-left: 4px solid var(--neon-blue); }
-        .card-cold:hover { box-shadow: 0 0 25px rgba(0, 243, 255, 0.3); border-color: var(--neon-blue); }
-
-        .card-done { opacity: 0.6; border-left: 4px solid var(--text-muted); }
-        .card-done .task-text { text-decoration: line-through; color: var(--text-muted); }
-
-        /* Text Styles */
-        .task-text { font-weight: 600; font-size: 17px; color: white; margin-bottom: 5px; }
-        .task-sub { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-
-        .cat-badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .badge-hot { background: rgba(255, 0, 85, 0.2); color: var(--neon-hot); border: 1px solid var(--neon-hot); }
-        .badge-warm { background: rgba(255, 204, 0, 0.2); color: var(--neon-warm); border: 1px solid var(--neon-warm); }
-        .badge-cold { background: rgba(0, 243, 255, 0.2); color: var(--neon-blue); border: 1px solid var(--neon-blue); }
-
-        /* Action Buttons */
-        .btn-group { display: flex; gap: 10px; }
-        .action-btn { 
-            width: 42px; height: 42px; border-radius: 12px; border: none; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; font-size: 18px; 
-            transition: 0.2s; background: rgba(255,255,255,0.1); color: white;
+        .sr-no {
+            font-size: 14px; font-weight: 700; color: #764ba2;
+            background: #f3e8ff; padding: 5px 10px; border-radius: 8px;
+            margin-right: 10px; min-width: 20px; text-align: center;
         }
-        .action-btn:hover { background: white; color: black; transform: scale(1.1); }
+
+        .card-hot { border-left-color: var(--hot); background: linear-gradient(to right, #fff0f0, white); }
+        .card-warm { border-left-color: var(--warm); background: linear-gradient(to right, #fffbf0, white); }
+        .card-cold { border-left-color: var(--cold); background: linear-gradient(to right, #f0fff4, white); }
         
-        .btn-wa { color: #25D366; border: 1px solid #25D366; background: rgba(37, 211, 102, 0.1); }
-        .btn-wa:hover { background: #25D366; color: white; }
+        .card-done { border-left-color: #a4b0be; opacity: 0.9; background: #f8f9fa; }
+        .card-done .task-title { color: #636e72; font-weight: 600; }
 
-        .btn-check { color: var(--neon-green); border: 1px solid var(--neon-green); background: rgba(0, 255, 153, 0.1); }
-        .btn-check:hover { background: var(--neon-green); color: black; box-shadow: 0 0 15px var(--neon-green); }
+        .task-title { font-weight: 700; font-size: 18px; margin-bottom: 5px; color: #2f3542; }
+        .task-meta { font-size: 14px; color: #747d8c; font-weight: 500; }
 
-        .btn-del { color: var(--neon-hot); border: 1px solid var(--neon-hot); background: rgba(255, 0, 85, 0.1); }
-        .btn-del:hover { background: var(--neon-hot); color: white; box-shadow: 0 0 15px var(--neon-hot); }
-
-        /* PDF BTN */
-        .pdf-btn { 
-            margin-top: 15px; padding: 15px; width: 100%; 
-            background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); 
-            border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        .priority-pill { 
+            font-size: 12px; padding: 4px 10px; border-radius: 20px; 
+            font-weight: 800; margin-left: 8px; color: white;
         }
-        .pdf-btn:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 20px var(--neon-blue); }
+        .bg-hot { background: var(--hot); }
+        .bg-warm { background: var(--warm); }
+        .bg-cold { background: var(--cold); }
+
+        .btn-group { display: flex; gap: 8px; }
+        .icon-btn {
+            width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+        }
+        .btn-edit { background: #dfe4ea; color: #2f3542; }
+        .btn-check { background: #2ed573; color: white; }
+        .btn-undo { background: #a4b0be; color: white; }
+        .btn-del { background: #ff4757; color: white; }
+
+        .pdf-btn {
+            width: 100%; padding: 15px; background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5); color: white;
+            border-radius: 14px; font-weight: 700; cursor: pointer;
+            font-family: 'Gotu', sans-serif;
+        }
 
         /* POPUP */
-        #modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-box { 
-            background: #0f1020; border: 1px solid var(--neon-hot);
-            width: 85%; padding: 30px; border-radius: 25px; text-align: center; 
-            max-width: 400px; box-shadow: 0 0 50px rgba(255, 0, 85, 0.4); 
-            animation: zoomIn 0.3s ease;
-        }
-        @keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-box { background: white; padding: 30px; border-radius: 24px; text-align: center; width: 85%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         
-        .urgent-list { text-align: left; margin: 20px 0; max-height: 200px; overflow-y: auto; }
-        .urgent-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--neon-hot); display: flex; gap: 10px; align-items: center; }
+        /* --- PRINT STYLES (CRITICAL FIX) --- */
+        #print-area { display: none; }
 
-        #print-area { display: none; background: white; padding: 30px; color: black; }
-        .print-table { width: 100%; border-collapse: collapse; }
-        .print-table td, .print-table th { border: 1px solid #ddd; padding: 10px; color: black; }
-
+        @media print {
+            body { background: white; -webkit-print-color-adjust: exact; }
+            #app-container, #modalOverlay, .pdf-btn { display: none !important; }
+            #print-area { 
+                display: block !important; 
+                padding: 20px; 
+                position: absolute; 
+                top: 0; left: 0; width: 100%; 
+            }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th { background-color: #f1f2f6 !important; padding: 10px; border: 1px solid #000; font-weight: bold; }
+            .print-table td { padding: 10px; border: 1px solid #000; }
+            h2 { color: #764ba2; }
+        }
+        
     </style>
 </head>
 <body>
 
 <div id="modalOverlay">
     <div class="modal-box">
-        <div style="font-size: 50px; text-shadow: 0 0 20px var(--neon-hot);">🚨</div>
-        <h2 style="margin:10px 0; color:white;">MISSION CRITICAL</h2>
-        <p style="color:#aaa; font-size:14px;">खालील कामे त्वरित पूर्ण करा (Action Required):</p>
-        
-        <div class="urgent-list" id="urgentListContainer"></div>
-
-        <button onclick="closeModal()" style="background: var(--neon-hot); color:white; padding:15px; border:none; border-radius: 12px; width:100%; font-weight:bold; cursor:pointer; font-size: 16px; box-shadow: 0 0 20px var(--neon-hot); text-transform:uppercase;">Roger That! 🫡</button>
+        <div style="font-size: 50px; margin-bottom: 10px;">🔥</div>
+        <h2 style="margin:0; color:#2d3436;">महत्त्वाचे अलर्ट!</h2>
+        <p style="color:#636e72; margin-top:5px;">खालील कामे त्वरित पूर्ण करा:</p>
+        <div id="urgentListContainer" style="text-align:left; background:#fff1f1; padding:15px; border-radius:12px; margin:20px 0; color:#ff4757; font-weight:600;"></div>
+        <button onclick="closeModal()" class="add-btn" style="margin:0; background:#2d3436;">ठीक आहे! 💪</button>
     </div>
 </div>
 
 <div class="container" id="app-container">
-    <div class="gamified-header">
-        <h1 style="margin:0;">⚡ संकल्प PRO</h1>
-        <div style="font-size:12px; opacity:0.8; letter-spacing:2px; color: var(--neon-blue);">NEON EDITION</div>
-    </div>
-
-    <div class="search-section">
-        <div class="search-box">
-            <span style="font-size: 18px; margin-right: 10px; color: var(--neon-blue);">🔍</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search mission...">
-        </div>
-        <div class="filter-chips">
-            <div class="chip active" onclick="filterByCat('all', this)">ALL</div>
-            <div class="chip" onclick="filterByCat('hot', this)">🔥 HOT</div>
-            <div class="chip" onclick="filterByCat('warm', this)">☀️ WARM</div>
-            <div class="chip" onclick="filterByCat('cold', this)">❄️ COLD</div>
+    
+    <div class="app-header">
+        <h1 class="app-title">🚀 संकल्प</h1>
+        
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-lbl">एकूण</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color:#86efac;" id="stat-done">0</div>
+                <div class="stat-lbl">पूर्ण</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color:#fca5a5;" id="stat-pending">0</div>
+                <div class="stat-lbl">बाकी</div>
+            </div>
         </div>
     </div>
 
     <div class="tabs">
-        <div class="tab active" id="tabPending" onclick="switchTab('pending')">PENDING</div>
-        <div class="tab" id="tabHistory" onclick="switchTab('history')">HISTORY</div>
+        <div class="tab active" id="tabPending" onclick="switchTab('pending')">⏳ बाकी कामे</div>
+        <div class="tab" id="tabHistory" onclick="switchTab('history')">✅ पूर्ण (इतिहास)</div>
     </div>
 
-    <div class="glass-panel" id="inputPanel">
-        <select id="catInput">
-            <option value="hot">🔥 HOT (High Priority)</option>
-            <option value="warm">☀️ WARM (Medium)</option>
-            <option value="cold">❄️ COLD (Normal)</option>
-        </select>
-        
-        <div style="display:flex; gap:10px;">
+    <div class="glass-input" id="inputPanel">
+        <div class="input-row">
+            <select id="catInput">
+                <option value="hot">🔥 अर्जंट (Hot)</option>
+                <option value="warm">☀️ मध्यम (Warm)</option>
+                <option value="cold">❄️ निवांत (Cold)</option>
+            </select>
             <input type="date" id="dateInput">
-            <input type="text" id="personInput" placeholder="👤 Person Name">
         </div>
-
-        <div class="input-group-voice">
-            <input type="text" id="taskInput" placeholder="📝 Type task here..." style="margin-bottom:0;">
+        
+        <input type="text" id="personInput" placeholder="👤 कोणाचे काम आहे? (नाव)" style="margin-bottom:12px;">
+        
+        <div class="input-row" style="margin-bottom:0;">
+            <input type="text" id="taskInput" placeholder="📝 कामाचे स्वरूप लिहा...">
             <button id="micBtn" class="mic-btn" onclick="startVoice()">🎙️</button>
         </div>
-
-        <button class="add-btn" id="addBtn">ADD MISSION</button>
+        
+        <button class="add-btn" id="addBtn">🚀 नवीन काम जोडा</button>
     </div>
 
     <div id="mainList"></div>
-    <button class="pdf-btn" onclick="generateReport()">📄 GENERATE REPORT</button>
+    <button class="pdf-btn" onclick="printReport()">📄 अहवाल (Report) डाउनलोड करा</button>
 </div>
 
 <div id="print-area">
-    <h2 style="text-align:center;">Sankalp Task Report</h2>
-    <p style="text-align:center;">Date: <span id="print-date"></span></p>
-    <table class="print-table">
-        <thead><tr style="background:#eee;"><th>Priority</th><th>Person</th><th>Task</th><th>Status</th></tr></thead>
+    <div style="text-align:center; border-bottom:3px solid #764ba2; padding-bottom:10px; margin-bottom:20px;">
+        <h1 style="margin:0; color:#764ba2;">कार्यपूर्ती अहवाल (Work Report)</h1>
+        <p style="margin:5px 0; color:#666;">संकल्प ॲपद्वारे जनरेट केलेले</p>
+        <p><strong>दिनांक:</strong> <span id="print-date">-</span></p>
+    </div>
+
+    <table class="print-table" style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background:#f0f0f0;">
+                <th style="padding:10px; border:1px solid #ddd;">क्र.</th>
+                <th style="padding:10px; border:1px solid #ddd;">कामाचे नाव & व्यक्ती</th>
+                <th style="padding:10px; border:1px solid #ddd;">सुरुवात (Start)</th>
+                <th style="padding:10px; border:1px solid #ddd;">पूर्ण (End)</th>
+                <th style="padding:10px; border:1px solid #ddd;">लागलेला वेळ (Duration)</th>
+            </tr>
+        </thead>
         <tbody id="print-table-body"></tbody>
     </table>
 </div>
@@ -302,7 +272,6 @@
 
     let allData = [];
     let currentTab = 'pending';
-    let currentFilter = 'all';
     const todayStr = new Date().toISOString().split('T')[0];
     document.getElementById('dateInput').value = todayStr;
 
@@ -310,19 +279,19 @@
 
     window.closeModal = () => {
         document.getElementById('modalOverlay').style.display = 'none';
-        setInterval(() => checkNotifications(), 3600000);
+        setInterval(checkNotifications, 3600000);
     };
 
     function checkNotifications() {
         const hotTasks = allData.filter(t => !t.completed && t.category === 'hot');
         if (hotTasks.length > 0 && Notification.permission === "granted") {
-            new Notification("🔥 URGENT!", { body: `${hotTasks.length} Hot tasks pending!` });
+            new Notification("संकल्प अलर्ट", { body: `${hotTasks.length} अर्जंट कामे बाकी आहेत!` });
         }
     }
 
     window.startVoice = () => {
         const micBtn = document.getElementById('micBtn');
-        if (!('webkitSpeechRecognition' in window)) { alert("Voice not supported."); return; }
+        if (!('webkitSpeechRecognition' in window)) { alert("ब्राउझर सपोर्ट नाही."); return; }
         const recognition = new webkitSpeechRecognition();
         recognition.lang = 'mr-IN'; recognition.start();
         micBtn.classList.add('mic-active');
@@ -335,9 +304,7 @@
 
     function render() {
         const list = document.getElementById('mainList');
-        const searchVal = document.getElementById('searchInput').value.toLowerCase();
         list.innerHTML = '';
-        
         let tasksToShow = [];
 
         if (currentTab === 'pending') {
@@ -345,49 +312,51 @@
             const pMap = { 'hot': 1, 'warm': 2, 'cold': 3 };
             tasksToShow.sort((a,b) => (pMap[a.category] || 3) - (pMap[b.category] || 3));
         } else {
-            tasksToShow = allData.filter(t => t.completed).sort((a,b) => b.createdAt - a.createdAt);
+            // Sort History by Completed Date (Newest First)
+            tasksToShow = allData.filter(t => t.completed).sort((a,b) => (b.completedAt || 0) - (a.completedAt || 0));
         }
 
-        if (currentFilter !== 'all') {
-            tasksToShow = tasksToShow.filter(t => (t.category || 'cold') === currentFilter);
-        }
+        updateDashboard(allData);
 
-        if(searchVal) {
-            tasksToShow = tasksToShow.filter(t => t.text.toLowerCase().includes(searchVal) || t.person.toLowerCase().includes(searchVal));
-        }
+        if(tasksToShow.length === 0) list.innerHTML = `<div style="text-align:center; padding:50px; color:white; opacity:0.8; font-weight:500;">✨ कामे शिल्लक नाहीत.</div>`;
 
-        if(tasksToShow.length === 0) list.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.5);padding:30px;">NO DATA FOUND</div>`;
-
-        tasksToShow.forEach(t => {
+        tasksToShow.forEach((t, index) => {
             const div = document.createElement('div');
-            const cat = t.category || 'cold'; 
-            const badgeClass = `badge-${cat}`;
+            const cat = t.category || 'cold';
+            const catLabel = cat === 'hot' ? 'अर्जंट' : cat === 'warm' ? 'मध्यम' : 'निवांत';
             const cardClass = t.completed ? 'card-done' : `card-${cat}`;
+            const badgeClass = `bg-${cat}`;
             const dateStr = new Date(t.createdAt).toLocaleDateString('en-GB');
-            
-            const waText = encodeURIComponent(`*SANKALP TASK*\n----------------\n📝 ${t.text}\n👤 ${t.person}\n🔥 ${cat.toUpperCase()}`);
-            const waLink = `https://wa.me/?text=${waText}`;
 
             div.className = `task-card ${cardClass}`;
             div.innerHTML = `
+                <div class="sr-no">${index + 1}</div>
                 <div style="flex:1;">
-                    <div class="task-text">
+                    <div class="task-title">
                         ${t.text} 
-                        ${!t.completed ? `<span class="cat-badge ${badgeClass}">${cat.toUpperCase()}</span>` : ''}
+                        ${!t.completed ? `<span class="priority-pill ${badgeClass}">${catLabel}</span>` : ''}
                     </div>
-                    <div class="task-sub">
+                    <div class="task-meta">
                         👤 ${t.person} • 📅 ${dateStr}
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button class="action-btn btn-wa" onclick="window.open('${waLink}', '_blank')">💬</button>
-                    <button class="action-btn" onclick="editTask('${t.id}', '${t.text}')">✏️</button>
-                    ${!t.completed ? `<button class="action-btn btn-check" onclick="markDone('${t.id}')">✓</button>` : `<button class="action-btn" onclick="undo('${t.id}')">↺</button>`}
-                    <button class="action-btn btn-del" onclick="del('${t.id}')">✕</button>
+                    <button class="icon-btn btn-edit" onclick="editTask('${t.id}', '${t.text}')">✎</button>
+                    ${!t.completed ? `<button class="icon-btn btn-check" onclick="markDone('${t.id}')">✓</button>` : `<button class="icon-btn btn-undo" onclick="undo('${t.id}')">↺</button>`}
+                    <button class="icon-btn btn-del" onclick="del('${t.id}')">✕</button>
                 </div>
             `;
             list.appendChild(div);
         });
+    }
+
+    function updateDashboard(data) {
+        const total = data.length;
+        const done = data.filter(t => t.completed).length;
+        const pending = total - done;
+        document.getElementById('stat-total').innerText = total;
+        document.getElementById('stat-done').innerText = done;
+        document.getElementById('stat-pending').innerText = pending;
     }
 
     window.switchTab = (tab) => {
@@ -398,35 +367,27 @@
         render();
     }
 
-    window.filterByCat = (cat, btn) => {
-        currentFilter = cat;
-        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        render();
-    };
-
     window.editTask = async (id, oldText) => {
-        const newText = prompt("Update Task:", oldText);
+        const newText = prompt("कामध्ये बदल करा:", oldText);
         if (newText && newText.trim() !== "") {
             await updateDoc(doc(db, "tasks", id), { text: newText.trim() });
         }
     };
 
     window.markDone = async (id) => {
-        confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 }, colors: ['#00f3ff', '#ff0055'] });
-        await updateDoc(doc(db, "tasks", id), { completed: true });
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        await updateDoc(doc(db, "tasks", id), { completed: true, completedAt: Date.now() });
     };
-    window.undo = async (id) => { await updateDoc(doc(db, "tasks", id), { completed: false }); };
-    window.del = async (id) => { if(confirm("Permanently Delete?")) await deleteDoc(doc(db, "tasks", id)); };
-
-    document.getElementById('searchInput').addEventListener('input', render);
+    
+    window.undo = async (id) => { await updateDoc(doc(db, "tasks", id), { completed: false, completedAt: null }); };
+    window.del = async (id) => { if(confirm("हे काम कायमचे डिलीट करायचे?")) await deleteDoc(doc(db, "tasks", id)); };
 
     document.getElementById('addBtn').addEventListener('click', async () => {
         const p = document.getElementById('personInput').value;
         const t = document.getElementById('taskInput').value;
         const d = document.getElementById('dateInput').value;
         const cat = document.getElementById('catInput').value;
-        if(!p || !t) return alert("Please fill all fields");
+        if(!p || !t) return alert("कृपया नाव आणि काम दोन्ही भरा.");
         await addDoc(tasksCol, { text: t, person: p, completed: false, createdAt: Date.now(), createdAtDate: d, category: cat });
         document.getElementById('taskInput').value = '';
     });
@@ -440,32 +401,59 @@
         if (firstLoad) {
             const hotTasks = allData.filter(t => !t.completed && t.category === 'hot');
             if (hotTasks.length > 0) {
-                const listContainer = document.getElementById('urgentListContainer');
-                listContainer.innerHTML = ''; 
-                hotTasks.forEach(task => {
-                    const item = document.createElement('div');
-                    item.className = 'urgent-item';
-                    item.innerHTML = `<span>🔥</span> <span>${task.text}</span>`;
-                    listContainer.appendChild(item);
-                });
+                const list = document.getElementById('urgentListContainer');
+                list.innerHTML = hotTasks.map(t => `<div>• ${t.text}</div>`).join('');
                 document.getElementById('modalOverlay').style.display = 'flex';
             }
             firstLoad = false;
         }
     });
 
-    window.generateReport = () => {
+    // --- REPORT & TIME LOGIC ---
+    function formatDuration(start, end) {
+        if (!start || !end) return "-";
+        let diff = end - start;
+        let days = Math.floor(diff / (86400000));
+        let hours = Math.floor((diff % 86400000) / 3600000);
+        let minutes = Math.floor((diff % 3600000) / 60000);
+        
+        let arr = [];
+        if(days>0) arr.push(days + " दिवस");
+        if(hours>0) arr.push(hours + " तास");
+        arr.push(minutes + " मिनिटे");
+        return arr.length > 0 ? arr.join(' ') : "लगेच";
+    }
+
+    function formatTime(ts) {
+        if(!ts) return "-";
+        return new Date(ts).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    }
+
+    // --- NATIVE PRINT FUNCTION ---
+    window.printReport = () => {
+        document.getElementById('print-date').innerText = new Date().toLocaleString();
         const tbody = document.getElementById('print-table-body');
-        document.getElementById('print-date').innerText = new Date().toLocaleDateString();
-        tbody.innerHTML = allData.sort((a,b) => b.createdAt - a.createdAt).map(t => `
-            <tr><td>${t.category ? t.category.toUpperCase() : 'NORMAL'}</td><td>${t.person}</td><td>${t.text}</td><td>${t.completed ? 'Done' : 'Pending'}</td></tr>
+        
+        // Filter History (Completed)
+        const doneTasks = allData.filter(t => t.completed).sort((a,b) => (b.completedAt||0) - (a.completedAt||0));
+        
+        if(doneTasks.length === 0) {
+            alert("अद्याप कोणतीही कामे पूर्ण झालेली नाहीत. रिपोर्ट रिकामी आहे.");
+            return;
+        }
+
+        tbody.innerHTML = doneTasks.map((t, i) => `
+            <tr>
+                <td style="text-align:center;">${i+1}</td>
+                <td><strong>${t.text}</strong><br><small>(${t.person})</small></td>
+                <td>${formatTime(t.createdAt)}</td>
+                <td>${formatTime(t.completedAt)}</td>
+                <td style="color:#764ba2; font-weight:bold;">${formatDuration(t.createdAt, t.completedAt)}</td>
+            </tr>
         `).join('');
-        const el = document.getElementById('print-area');
-        const con = document.getElementById('app-container');
-        con.style.display = 'none'; el.style.display = 'block';
-        html2pdf().from(el).save('Sankalp_Neon_Report.pdf').then(() => {
-            el.style.display = 'none'; con.style.display = 'flex';
-        });
+
+        // Trigger System Print Dialog
+        window.print();
     };
 </script>
 
