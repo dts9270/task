@@ -3,260 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>संकल्प (Animated Pro)</title>
+    <title>संकल्प (Rainbow Header)</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Gotu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Gotu&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            /* व्हायब्रंट आणि फ्रेश कलर्स */
-            --bg-gradient: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-            --hot: #ff6b6b;
-            --warm: #feca57;
-            --dream: #54a0ff;
-            --text-main: #2f3640;
+            --hot: #ff4757;
+            --warm: #ffa502;
+            --dream: #1e90ff;
+            --text-main: #1e272e;
         }
 
         body {
-            font-family: 'Gotu', 'Outfit', sans-serif;
-            background: #e0e5ec;
-            margin: 0; padding: 15px 10px;
+            font-family: 'Outfit', 'Gotu', sans-serif;
+            background: #dfe6e9;
+            margin: 0; padding: 10px;
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
+            font-weight: 600;
         }
 
-        .container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .container { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
 
-        /* --- ANIMATIONS DEFINITIONS --- */
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes pulseSlow {
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-
-        @keyframes gradientFlow {
+        /* --- HEADER ANIMATION (Rainbow Floating) --- */
+        @keyframes rainbowMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* HEADER */
+        /* HEADER - सप्तरंगी आणि तरंगणारा */
         .app-header {
-            /* ॲनिमेटेड ग्रॅडियंट */
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientFlow 10s ease infinite;
+            /* सर्व रंगांचा मिक्स ग्रॅडियंट */
+            background: linear-gradient(
+                -45deg, 
+                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0055
+            );
+            background-size: 600% 600%; /* रंगांना वाहण्यासाठी जागा */
+            animation: rainbowMove 8s ease infinite; /* सतत हलणारे ऍनिमेशन */
             
-            border-radius: 24px; padding: 25px;
+            border-radius: 20px; padding: 20px;
             text-align: center; color: white;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.3);
         }
         
         .app-title { 
-            font-size: 34px; font-weight: 800; margin: 0; 
-            text-shadow: 0 3px 6px rgba(0,0,0,0.2); 
-            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 28px; font-weight: 900; margin: 0; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+
+        /* --- CARD FLOATING ANIMATIONS (Existing Strong) --- */
+        @keyframes floatHot {
+            0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); background: #fff0f0; border: 2px solid rgba(255, 71, 87, 0.3); }
+            50% { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(255, 71, 87, 0.8); background: #ffe3e3; border: 2px solid rgba(255, 71, 87, 1); }
+            100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); background: #fff0f0; border: 2px solid rgba(255, 71, 87, 0.3); }
+        }
+
+        @keyframes floatWarm {
+            0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(255, 165, 2, 0.4); background: #fffdf0; border: 2px solid rgba(255, 165, 2, 0.3);}
+            50% { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(255, 165, 2, 0.8); background: #fff5cc; border: 2px solid rgba(255, 165, 2, 1);}
+            100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(255, 165, 2, 0.4); background: #fffdf0; border: 2px solid rgba(255, 165, 2, 0.3);}
+        }
+
+        @keyframes floatDream {
+            0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4); background: #f0f8ff; border: 2px solid rgba(30, 144, 255, 0.3);}
+            50% { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(30, 144, 255, 0.8); background: #dcedff; border: 2px solid rgba(30, 144, 255, 1);}
+            100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4); background: #f0f8ff; border: 2px solid rgba(30, 144, 255, 0.3);}
         }
 
         /* STATS */
         .stats-row {
             display: flex; justify-content: space-between;
-            background: rgba(255,255,255,0.25); padding: 12px;
-            border-radius: 18px; margin-top: 15px;
+            background: rgba(0,0,0,0.2); padding: 10px;
+            border-radius: 12px; margin-top: 10px;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
         }
-        .stat-box { 
-            text-align: center; flex: 1; 
-            transition: transform 0.3s; 
-        }
-        .stat-box:hover { transform: translateY(-3px); }
-        .stat-num { font-size: 24px; font-weight: 800; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .stat-lbl { font-size: 13px; color: rgba(255,255,255,0.95); font-weight: 600; }
+        .stat-box { text-align: center; flex: 1; border-right: 1px solid rgba(255,255,255,0.2); }
+        .stat-box:last-child { border: none; }
+        .stat-num { font-size: 20px; font-weight: 800; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+        .stat-lbl { font-size: 12px; color: rgba(255,255,255,0.95); font-weight: 700; }
 
         /* TABS */
-        .tabs { 
-            display: flex; background: white; padding: 6px; 
-            border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
+        .tabs { display: flex; background: white; padding: 5px; border-radius: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .tab { 
-            flex: 1; padding: 12px; text-align: center; font-weight: 600; 
-            color: #7f8c8d; border-radius: 16px; 
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            font-size: 15px; position: relative;
+            flex: 1; padding: 10px; text-align: center; font-weight: 700; 
+            color: #b2bec3; border-radius: 10px; cursor: pointer; transition: 0.3s; font-size: 14px;
         }
         .tab.active { 
-            background: #23a6d5; color: white; 
-            box-shadow: 0 5px 15px rgba(35, 166, 213, 0.4); 
-            font-weight: 700; transform: scale(1.05);
+            background: linear-gradient(90deg, #ff00cc, #333399); 
+            color: white; font-weight: 800; 
         }
 
         /* INPUT PANEL */
         .glass-input {
-            background: white;
-            border-radius: 26px; padding: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
+            background: white; border-radius: 18px; padding: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
-        .glass-input:hover { transform: translateY(-2px); }
 
-        .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
         
         input, select {
-            width: 100%; padding: 15px; border: 2px solid #f1f2f6;
-            border-radius: 14px; font-size: 16px; outline: none;
-            font-family: 'Gotu', sans-serif; transition: 0.4s; background: #f8f9fa;
+            width: 100%; padding: 12px; border: 2px solid #dfe6e9;
+            border-radius: 12px; font-size: 15px; outline: none;
+            font-family: 'Outfit', sans-serif; font-weight: 600;
+            background: #f8f9fa; transition: 0.3s;
         }
-        input:focus, select:focus { 
-            border-color: #23a6d5; background: white; 
-            box-shadow: 0 0 0 4px rgba(35, 166, 213, 0.15);
-            transform: scale(1.01);
-        }
+        input:focus, select:focus { border-color: #a29bfe; background: white; }
 
-        /* BUTTONS */
+        /* ADD BUTTON */
         .add-btn {
-            width: 100%; padding: 16px; margin-top: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border: none; border-radius: 16px;
-            font-weight: 700; font-size: 18px; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
-            font-family: 'Gotu', sans-serif; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%; padding: 14px; margin-top: 5px;
+            background: #2d3436;
+            color: white; border: none; border-radius: 12px;
+            font-weight: 800; font-size: 16px; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(45, 52, 54, 0.3);
+            font-family: 'Outfit', sans-serif; transition: 0.2s;
         }
-        .add-btn:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 15px 25px rgba(118, 75, 162, 0.4); }
-        .add-btn:active { transform: scale(0.95); }
+        .add-btn:active { transform: scale(0.96); }
 
         .mic-btn {
-            width: 60px; border: none; background: #ff4757; color: white;
-            border-radius: 14px; font-size: 22px; cursor: pointer;
+            width: 50px; border: none; background: #ff7675; color: white;
+            border-radius: 12px; font-size: 20px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
         }
-        .mic-btn:hover { transform: rotate(10deg) scale(1.1); }
-        .mic-active { background: #2ed573; animation: pulseSlow 1.5s infinite; }
+        .mic-active { background: #55efc4; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
 
-        /* LIST CARD ANIMATION */
+        /* TASK CARD */
         .task-card {
-            background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-radius: 16px; padding: 15px; margin-bottom: 20px;
             display: flex; align-items: center; justify-content: space-between;
-            border-left: 6px solid #ccc;
-            
-            /* Staggered Animation Logic handled in JS, base animation here */
-            animation: slideInUp 0.5s ease-out forwards;
-            opacity: 0; /* Initially hidden for animation */
-            
             transition: all 0.3s ease;
         }
         
-        .task-card:hover { 
-            transform: translateY(-5px) scale(1.01); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
-        }
-
         .sr-no {
-            font-size: 14px; font-weight: 700; color: #555;
-            background: #f1f2f6; padding: 6px 12px; border-radius: 10px;
+            font-size: 14px; font-weight: 800; color: #2d3436;
+            background: rgba(255,255,255,0.6); padding: 5px 10px; border-radius: 8px;
             margin-right: 12px; min-width: 20px; text-align: center;
         }
 
-        /* Priority Styles */
-        .card-hot { border-left-color: var(--hot); background: linear-gradient(to right, #fff5f5, white); }
-        .card-warm { border-left-color: var(--warm); background: linear-gradient(to right, #fffdf0, white); }
-        .card-cold { border-left-color: var(--dream); background: linear-gradient(to right, #f0f8ff, white); }
+        .task-title { font-weight: 800; font-size: 17px; margin-bottom: 4px; color: #2d3436; line-height: 1.3; }
+        .task-meta { font-size: 13px; color: #636e72; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+
+        /* Priority Animation Classes */
+        .card-hot { animation: floatHot 2s infinite ease-in-out; z-index: 10; }
+        .card-warm { animation: floatWarm 3s infinite ease-in-out; z-index: 5; }
+        .card-cold { animation: floatDream 4s infinite ease-in-out; z-index: 1; }
         
-        /* DONE STATE - NO STRIKETHROUGH */
         .card-done { 
-            border-left-color: #2ed573; 
-            background: #f8fcf9;
-            opacity: 0.7; /* थोडा फिका */
+            background: #ecf0f1; border: 2px solid #b2bec3;
+            opacity: 0.6; filter: grayscale(100%);
             transform: scale(0.98);
         }
-        .card-done:hover { opacity: 1; transform: scale(1); }
-        
-        /* Text is NORMAL, just distinct color */
-        .card-done .task-title { 
-            text-decoration: none !important; /* NO LINE */
-            color: #2d3436; 
-            font-weight: 500;
-        }
-        .card-done .sr-no { background: #d1fae5; color: #047857; }
-
-        .task-title { font-weight: 700; font-size: 19px; margin-bottom: 6px; color: #2f3640; }
-        .task-meta { font-size: 13px; color: #747d8c; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .card-done .task-title { text-decoration: none; color: #636e72; }
 
         .priority-pill { 
-            font-size: 11px; padding: 4px 12px; border-radius: 20px; 
-            font-weight: 800; margin-left: 8px; color: white;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            font-size: 11px; padding: 3px 10px; border-radius: 12px; 
+            font-weight: 800; margin-left: 6px; color: white; vertical-align: middle;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .bg-hot { background: var(--hot); }
         .bg-warm { background: var(--warm); }
         .bg-cold { background: var(--dream); }
 
-        .btn-group { display: flex; gap: 10px; }
+        .btn-group { display: flex; gap: 8px; }
         .icon-btn {
-            width: 42px; height: 42px; border-radius: 14px; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
-            transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 17px;
+            transition: 0.2s; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
-        .icon-btn:hover { transform: scale(1.15) rotate(5deg); }
         
-        .btn-edit { background: #dfe4ea; color: #2f3542; }
-        .btn-check { background: linear-gradient(to right, #2ed573, #1dd1a1); color: white; box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3); }
-        .btn-undo { background: #a4b0be; color: white; }
-        .btn-del { background: #ff6b6b; color: white; box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3); }
+        .btn-edit { background: white; color: #2d3436; }
+        .btn-check { background: #00b894; color: white; }
+        .btn-undo { background: #636e72; color: white; }
+        .btn-del { background: #ff7675; color: white; }
 
         .pdf-btn {
-            width: 100%; padding: 15px; background: white;
-            border: none; color: #764ba2;
-            border-radius: 16px; font-weight: 700; cursor: pointer;
-            font-family: 'Gotu', sans-serif; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%; padding: 14px; background: white;
+            border: 2px solid #6c5ce7; color: #6c5ce7;
+            border-radius: 14px; font-weight: 800; cursor: pointer;
+            font-family: 'Outfit', sans-serif; font-size: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        .pdf-btn:hover { background: #764ba2; color: white; transform: translateY(-3px); }
 
-        /* POPUP ANIMATION */
+        /* POPUP */
         #modalOverlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); 
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); 
             display: none; justify-content: center; align-items: center; z-index: 2000; 
         }
         .modal-box { 
-            background: white; padding: 30px; border-radius: 30px; text-align: center; 
-            width: 85%; max-width: 400px; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: white; padding: 25px; border-radius: 24px; text-align: center; 
+            width: 80%; max-width: 350px; 
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
-        }
+        @keyframes bounceIn { from{transform:scale(0.5);opacity:0;} to{transform:scale(1);opacity:1;} }
         
-        /* PRINT STYLES */
+        /* PRINT */
         #print-area { display: none; }
         @media print {
             body { background: white; }
             #app-container, #modalOverlay, .pdf-btn { display: none !important; }
             #print-area { display: block !important; padding: 20px; position: absolute; top: 0; left: 0; width: 100%; }
-            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            .print-table th { background-color: #f1f2f6 !important; padding: 10px; border: 1px solid #000; font-weight: bold; }
-            .print-table td { padding: 10px; border: 1px solid #000; }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            .print-table th { background-color: #f1f2f6 !important; padding: 8px; border: 1px solid #000; font-weight: bold; font-size: 14px; }
+            .print-table td { padding: 8px; border: 1px solid #000; font-size: 14px; }
         }
         
     </style>
@@ -265,19 +221,19 @@
 
 <div id="modalOverlay">
     <div class="modal-box">
-        <div style="font-size: 60px; margin-bottom: 10px; animation: pulseSlow 2s infinite;">🔥</div>
-        <h2 style="margin:0; color:#2d3436;">महत्त्वाचे अलर्ट!</h2>
-        <p style="color:#636e72; margin-top:5px;">खालील कामे त्वरित पूर्ण करा:</p>
-        <div id="urgentListContainer" style="text-align:left; background:#fff1f1; padding:15px; border-radius:16px; margin:20px 0; color:#ff4757; font-weight:600;"></div>
-        <button onclick="closeModal()" class="add-btn" style="margin:0; background: #2d3436; box-shadow:none;">ठीक आहे! 💪</button>
+        <div style="font-size: 50px; margin-bottom: 10px;">🚨</div>
+        <h2 style="margin:0; color:#2d3436;">अर्जंट अलर्ट!</h2>
+        <p style="color:#636e72; font-size:15px; margin-top:5px;">खालील कामे त्वरित करा:</p>
+        <div id="urgentListContainer" style="text-align:left; background:#ffeded; padding:12px; border-radius:12px; margin:20px 0; color:#ff4757; font-weight:700; font-size:15px; border: 1px solid #ff4757;"></div>
+        <button onclick="closeModal()" class="add-btn" style="margin:0; background: #2d3436;">ठीक आहे! 👍</button>
     </div>
 </div>
 
 <div class="container" id="app-container">
     
     <div class="app-header">
-        <h1 class="app-title">🚀 संकल्प 3.0</h1>
-        <div style="font-size:13px; opacity:0.9; margin-top:5px; font-weight:500;">✨ स्वप्नपूर्तीकडे एक पाऊल...</div>
+        <h1 class="app-title">🚀 संकल्प 4.0</h1>
+        <div style="font-size:13px; opacity:0.95; margin-top:5px; font-weight:700;">✨ All Colors Activated!</div>
         
         <div class="stats-row">
             <div class="stat-box">
@@ -285,11 +241,11 @@
                 <div class="stat-lbl">एकूण</div>
             </div>
             <div class="stat-box">
-                <div class="stat-num" style="color:#86efac;" id="stat-done">0</div>
+                <div class="stat-num" style="color:#aaffaa;" id="stat-done">0</div>
                 <div class="stat-lbl">पूर्ण</div>
             </div>
             <div class="stat-box">
-                <div class="stat-num" style="color:#ffeaa7;" id="stat-pending">0</div>
+                <div class="stat-num" style="color:#ffffaa;" id="stat-pending">0</div>
                 <div class="stat-lbl">बाकी</div>
             </div>
         </div>
@@ -297,46 +253,46 @@
 
     <div class="tabs">
         <div class="tab active" id="tabPending" onclick="switchTab('pending')">⏳ बाकी कामे</div>
-        <div class="tab" id="tabHistory" onclick="switchTab('history')">✅ इतिहास (History)</div>
+        <div class="tab" id="tabHistory" onclick="switchTab('history')">✅ इतिहास</div>
     </div>
 
     <div class="glass-input" id="inputPanel">
         <div class="input-row">
             <select id="catInput">
-                <option value="hot">🔥 ताबडतोब (Urgent)</option>
-                <option value="warm">⚡ महत्त्वाचे (Imp)</option>
-                <option value="cold">🌟 स्वप्नपूर्ती (Dream)</option>
+                <option value="hot">🔴 अर्जंट (Hot)</option>
+                <option value="warm">🟠 महत्त्वाचे (Warm)</option>
+                <option value="cold">🔵 स्वप्नपूर्ती (Dream)</option>
             </select>
             <input type="date" id="dateInput">
         </div>
         
-        <input type="text" id="personInput" placeholder="👤 कोणाचे काम आहे? (नाव)" style="margin-bottom:12px;">
+        <input type="text" id="personInput" placeholder="👤 नाव..." style="margin-bottom:10px;">
         
         <div class="input-row" style="margin-bottom:0;">
-            <input type="text" id="taskInput" placeholder="📝 कामाचे स्वरूप लिहा...">
+            <input type="text" id="taskInput" placeholder="📝 काम...">
             <button id="micBtn" class="mic-btn" onclick="startVoice()">🎙️</button>
         </div>
         
-        <button class="add-btn" id="addBtn">🚀 नवीन काम जोडा</button>
+        <button class="add-btn" id="addBtn">ADD TASK 🚀</button>
     </div>
 
     <div id="mainList"></div>
-    <button class="pdf-btn" onclick="printReport()">📄 अहवाल (Report) डाउनलोड करा</button>
+    <button class="pdf-btn" onclick="printReport()">📄 Download Report</button>
 </div>
 
 <div id="print-area">
-    <div style="text-align:center; border-bottom:3px solid #764ba2; padding-bottom:10px; margin-bottom:20px;">
-        <h1 style="margin:0; color:#764ba2;">कार्यपूर्ती अहवाल (Work Report)</h1>
+    <div style="text-align:center; border-bottom:2px solid #6c5ce7; padding-bottom:10px; margin-bottom:15px;">
+        <h2 style="margin:0; color:#6c5ce7;">कार्यपूर्ती अहवाल</h2>
         <p><strong>दिनांक:</strong> <span id="print-date">-</span></p>
     </div>
     <table class="print-table" style="width:100%; border-collapse: collapse;">
         <thead>
             <tr style="background:#f0f0f0;">
-                <th style="padding:10px; border:1px solid #ddd;">क्र.</th>
-                <th style="padding:10px; border:1px solid #ddd;">कामाचे नाव & व्यक्ती</th>
-                <th style="padding:10px; border:1px solid #ddd;">सुरुवात</th>
-                <th style="padding:10px; border:1px solid #ddd;">पूर्ण</th>
-                <th style="padding:10px; border:1px solid #ddd;">वेळ</th>
+                <th style="width: 10%;">क्र.</th>
+                <th>कामाचे नाव & व्यक्ती</th>
+                <th style="width: 15%;">सुरुवात</th>
+                <th style="width: 15%;">पूर्ण</th>
+                <th style="width: 20%;">वेळ</th>
             </tr>
         </thead>
         <tbody id="print-table-body"></tbody>
@@ -393,7 +349,6 @@
         recognition.onend = () => micBtn.classList.remove('mic-active');
     };
 
-    // --- ANIMATED COUNTER FUNCTION ---
     function animateValue(obj, start, end, duration) {
         let startTimestamp = null;
         const step = (timestamp) => {
@@ -423,31 +378,26 @@
         updateDashboard(allData);
 
         if(tasksToShow.length === 0) {
-            list.innerHTML = `<div style="text-align:center; padding:60px; color:#7f8c8d; animation: popIn 0.5s ease;">
-                <div style="font-size:40px; margin-bottom:10px;">✨</div>
-                <div style="font-weight:600; font-size:18px;">सध्या रिकामे आहे...</div>
-            </div>`;
+            list.innerHTML = `<div style="text-align:center; padding:50px; color:#636e72; font-weight:700;">✨ सध्या कामे नाहीत!</div>`;
         }
 
         tasksToShow.forEach((t, index) => {
             const div = document.createElement('div');
             const cat = t.category || 'cold';
-            let catLabel = cat === 'hot' ? 'ताबडतोब' : cat === 'warm' ? 'महत्त्वाचे' : 'स्वप्नपूर्ती';
+            let catLabel = cat === 'hot' ? 'अर्जंट' : cat === 'warm' ? 'महत्त्वाचे' : 'स्वप्नपूर्ती';
 
             const cardClass = t.completed ? 'card-done' : `card-${cat}`;
             const badgeClass = `bg-${cat}`;
             const dateStr = new Date(t.createdAtDate || t.createdAt).toLocaleDateString('en-GB');
 
             div.className = `task-card ${cardClass}`;
-            // Staggered Animation Delay
-            div.style.animationDelay = `${index * 0.08}s`;
 
             div.innerHTML = `
                 <div class="sr-no">${index + 1}</div>
                 <div style="flex:1;">
                     <div class="task-title">
                         ${t.text} 
-                        ${!t.completed ? `<span class="priority-pill ${badgeClass}">${catLabel}</span>` : '<span style="font-size:12px; color:#2ed573; margin-left:5px;">(पूर्ण झाले ✅)</span>'}
+                        ${!t.completed ? `<span class="priority-pill ${badgeClass}">${catLabel}</span>` : '<span style="font-size:12px; color:#636e72; margin-left:5px;">✅</span>'}
                     </div>
                     <div class="task-meta">
                         👤 ${t.person} • 📅 ${dateStr}
@@ -468,16 +418,9 @@
         const done = data.filter(t => t.completed).length;
         const pending = total - done;
 
-        // Animate Numbers
-        const elTotal = document.getElementById('stat-total');
-        const elDone = document.getElementById('stat-done');
-        const elPending = document.getElementById('stat-pending');
-
-        // Simple check to avoid re-animating if number hasn't changed drastically could be added, 
-        // but for now re-animating looks cool.
-        animateValue(elTotal, 0, total, 1000);
-        animateValue(elDone, 0, done, 1000);
-        animateValue(elPending, 0, pending, 1000);
+        animateValue(document.getElementById('stat-total'), 0, total, 500);
+        animateValue(document.getElementById('stat-done'), 0, done, 500);
+        animateValue(document.getElementById('stat-pending'), 0, pending, 500);
     }
 
     window.switchTab = (tab) => {
@@ -485,44 +428,32 @@
         document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
         document.getElementById(tab === 'pending' ? 'tabPending' : 'tabHistory').classList.add('active');
         const inputPanel = document.getElementById('inputPanel');
-        
-        if(tab === 'pending') {
-            inputPanel.style.display = 'block';
-            inputPanel.style.animation = 'slideInUp 0.4s ease';
-        } else {
-            inputPanel.style.display = 'none';
-        }
+        inputPanel.style.display = tab === 'pending' ? 'block' : 'none';
         render();
     }
 
     window.editTask = async (id, oldText) => {
-        const newText = prompt("कामध्ये बदल करा:", oldText);
+        const newText = prompt("बदल करा:", oldText);
         if (newText && newText.trim() !== "") {
             await updateDoc(doc(db, "tasks", id), { text: newText.trim() });
         }
     };
 
     window.markDone = async (id) => {
-        // More Confetti!
-        confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff4757', '#2ed573', '#ffa502', '#23a6d5'] });
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00'] });
         await updateDoc(doc(db, "tasks", id), { completed: true, completedAt: Date.now() });
     };
     
     window.undo = async (id) => { await updateDoc(doc(db, "tasks", id), { completed: false, completedAt: null }); };
-    window.del = async (id) => { if(confirm("हे काम कायमचे डिलीट करायचे?")) await deleteDoc(doc(db, "tasks", id)); };
+    window.del = async (id) => { if(confirm("डिलीट करायचे?")) await deleteDoc(doc(db, "tasks", id)); };
 
     document.getElementById('addBtn').addEventListener('click', async () => {
         const p = document.getElementById('personInput').value;
         const t = document.getElementById('taskInput').value;
         const d = document.getElementById('dateInput').value;
         const cat = document.getElementById('catInput').value;
-        if(!p || !t) return alert("कृपया नाव आणि काम दोन्ही भरा.");
+        if(!p || !t) return alert("नाव आणि काम दोन्ही भरा.");
         
-        // Button press animation manually triggered for feel
-        const btn = document.getElementById('addBtn');
-        btn.style.transform = "scale(0.95)";
-        setTimeout(()=> btn.style.transform = "scale(1)", 100);
-
         await addDoc(tasksCol, { text: t, person: p, completed: false, createdAt: Date.now(), createdAtDate: d, category: cat });
         document.getElementById('taskInput').value = '';
     });
@@ -552,15 +483,15 @@
         let minutes = Math.floor((diff % 3600000) / 60000);
         
         let arr = [];
-        if(days>0) arr.push(days + " दिवस");
-        if(hours>0) arr.push(hours + " तास");
-        arr.push(minutes + " मिनिटे");
-        return arr.length > 0 ? arr.join(' ') : "लगेच";
+        if(days>0) arr.push(days + "d");
+        if(hours>0) arr.push(hours + "h");
+        arr.push(minutes + "m");
+        return arr.length > 0 ? arr.join(' ') : "Just now";
     }
 
     function formatTime(ts) {
         if(!ts) return "-";
-        return new Date(ts).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+        return new Date(ts).toLocaleString('en-GB', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
     }
 
     window.printReport = () => {
@@ -579,7 +510,7 @@
                 <td><strong>${t.text}</strong><br><small>(${t.person})</small></td>
                 <td>${formatTime(t.createdAt)}</td>
                 <td>${formatTime(t.completedAt)}</td>
-                <td style="color:#764ba2; font-weight:bold;">${formatDuration(t.createdAt, t.completedAt)}</td>
+                <td style="color:#6c5ce7; font-weight:bold;">${formatDuration(t.createdAt, t.completedAt)}</td>
             </tr>
         `).join('');
 
