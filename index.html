@@ -1,448 +1,459 @@
-<!DOCTYPE html>
-<html lang="mr">
+<!DOCTYPE html><html lang="mr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>संकल्प</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<style>
-
+<title>RCM Tracker Pro V2.0</title><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style>
+:root{
+  --primary:#5b5ff5;
+  --primary2:#7c3aed;
+  --dark:#111827;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --bg:#eef2ff;
+  --card:#ffffff;
+  --line:#e5e7eb;
+  --success:#10b981;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --info:#0ea5e9;
+  --shadow:0 12px 30px rgba(31,41,55,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;overflow-x:hidden}
 body{
-font-family:Outfit;
-background:#dfe6e9;
-margin:0;
-padding:10px;
+  margin:0;
+  padding:12px;
+  font-family:'Baloo 2','Outfit',sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(124,58,237,.18),transparent 28%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.18),transparent 28%),
+    linear-gradient(135deg,#f8fafc,#e0e7ff);
+  color:var(--text);
 }
-
-.container{
-max-width:520px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:12px;
+.container{max-width:620px;margin:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:24px}
+.hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:20px;
+  padding:12px 12px 10px;
+  color:white;
+  background:linear-gradient(-45deg,#ff512f,#f09819,#06b6d4,#5b5ff5,#7c3aed,#ec4899);
+  background-size:500% 500%;
+  animation:gradientMove 9s ease infinite;
+  box-shadow:0 8px 20px rgba(31,41,55,.10);
 }
-
-.app-header{
-background:linear-gradient(-45deg,#ff0000,#ff7f00,#ffff00,#00ff00,#0000ff,#4b0082,#9400d3);
-background-size:400% 400%;
-animation:rainbow 8s infinite;
-border-radius:20px;
-padding:20px;
-text-align:center;
-color:white;
-}
-
-@keyframes rainbow{
-0%{background-position:0%}
-50%{background-position:100%}
-100%{background-position:0%}
-}
-
-.app-title{
-font-size:26px;
-font-weight:900;
-}
-
-.stats-row{
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-}
-
-.stat-box{
-flex:1;
-text-align:center;
-}
-
-.stat-num{
-font-size:20px;
-font-weight:800;
-}
-
-.tabs{
-display:flex;
-background:white;
-border-radius:14px;
-padding:5px;
-}
-
-.tab{
-flex:1;
-padding:10px;
-text-align:center;
-font-weight:700;
-cursor:pointer;
-border-radius:10px;
-}
-
-.tab.active{
-background:#6c5ce7;
-color:white;
-}
-
-.glass-input{
-background:white;
-border-radius:18px;
-padding:15px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin-bottom:10px;
-border-radius:10px;
-border:1px solid #dfe6e9;
-}
-
-.add-btn{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#2d3436;
-color:white;
-font-weight:800;
-cursor:pointer;
-margin-top:5px;
-}
-
-.task-card{
-background:white;
-padding:12px;
-border-radius:14px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
-
-.card-done{
-opacity:0.6;
-text-decoration:line-through;
-}
-
-.date-title{
-font-weight:800;
-margin-top:15px;
-color:#6c5ce7;
-}
-
-.icon-btn{
-border:none;
-padding:6px 10px;
-border-radius:8px;
-cursor:pointer;
-margin-left:5px;
-}
-
-.btn-check{background:#00b894;color:white;}
-.btn-del{background:#ff7675;color:white;}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="app-header">
-
-<h1 class="app-title">🚀 संकल्प</h1>
-
-<div class="stats-row">
-
-<div class="stat-box">
-<div class="stat-num" id="stat-total">0</div>
-<div>एकूण</div>
+.hero:before{content:"";position:absolute;inset:-50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 45%);animation:floatGlow 8s linear infinite}
+.hero>*{position:relative;z-index:1}
+@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes floatGlow{0%{transform:translate(-10%,-10%)}50%{transform:translate(10%,10%)}100%{transform:translate(-10%,-10%)}}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.app-title{font-size:22px;font-weight:900;line-height:1;margin:0}
+.live-badge{font-size:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:4px 8px;border-radius:999px;font-weight:800;white-space:nowrap}
+.subtitle{opacity:.95;margin:4px 0 8px;font-size:12px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.stat-box{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);border-radius:12px;padding:6px 3px;text-align:center;backdrop-filter:blur(8px)}
+.stat-num{font-size:17px;font-weight:900;line-height:1}.stat-label{font-size:10px;opacity:.95;margin-top:2px}
+.progress-wrap{height:6px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;margin-top:8px}
+.progress-bar{height:100%;width:0;background:#fff;border-radius:999px;transition:.35s ease}
+.progress-text{text-align:center;font-weight:900;margin-top:4px;font-size:11px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.65);border-radius:18px;padding:6px;position:sticky;top:8px;z-index:10;box-shadow:0 8px 22px rgba(31,41,55,.1)}
+.tab{border:none;background:transparent;padding:9px 4px;border-radius:13px;font-family:inherit;font-weight:900;color:var(--muted);cursor:pointer;font-size:13px}
+.tab.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;box-shadow:0 8px 16px rgba(91,95,245,.28)}
+.card{background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.7);border-radius:24px;padding:14px;box-shadow:var(--shadow)}
+.section-title{font-weight:900;margin:0 0 10px;font-size:18px;color:var(--dark)}
+.form-grid{display:grid;gap:9px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:white;border-radius:15px;padding:12px 13px;font-family:inherit;font-size:16px;outline:none;color:var(--text)}
+textarea{resize:vertical;min-height:72px}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(91,95,245,.13)}
+.btn{border:none;border-radius:15px;padding:12px 14px;font-family:inherit;font-weight:900;font-size:16px;cursor:pointer;color:white;background:var(--dark);box-shadow:0 7px 14px rgba(31,41,55,.14)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2))}.btn-green{background:linear-gradient(135deg,#10b981,#059669)}.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626)}.btn-light{background:#f3f4f6;color:#111827;box-shadow:none}.btn-orange{background:linear-gradient(135deg,#f59e0b,#ea580c)}.btn-blue{background:linear-gradient(135deg,#0ea5e9,#2563eb)}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+.filters{display:grid;grid-template-columns:1.2fr .8fr;gap:9px;margin-top:10px}
+.person-filter{margin-top:9px}
+.list-head{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 0}.count-pill{background:#eef2ff;color:var(--primary2);font-weight:900;border-radius:999px;padding:4px 10px;font-size:13px}
+.date-title{font-size:17px;font-weight:900;color:var(--primary2);margin:14px 4px 8px}
+.task-card{background:white;border:1px solid var(--line);border-left:6px solid var(--primary);border-radius:20px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start;box-shadow:0 8px 18px rgba(31,41,55,.08);animation:slideUp .22s ease both}
+@keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.task-card.today{border-left-color:var(--info);background:#f0f9ff}.task-card.overdue{border-left-color:var(--danger);background:#fff7f7}.task-card.done{border-left-color:var(--success);background:#f0fdf4}.task-card.high{box-shadow:0 8px 18px rgba(239,68,68,.12)}
+.task-main{min-width:0;flex:1}.task-title{font-size:17px;font-weight:900;color:var(--dark);word-break:break-word;line-height:1.25}.task-card.done .task-title{text-decoration:line-through;opacity:.7}.task-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;font-size:13px;color:var(--muted);align-items:center}.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 8px;font-weight:800;background:#f3f4f6;color:#374151}.pill.high{background:#fee2e2;color:#b91c1c}.pill.normal{background:#eef2ff;color:#4338ca}.pill.low{background:#dcfce7;color:#166534}.pill.overdue{background:#fee2e2;color:#b91c1c}.pill.done{background:#d1fae5;color:#047857}
+.icon-wrap{display:flex;gap:5px;flex-shrink:0}.icon-btn{border:none;width:38px;height:36px;border-radius:12px;font-weight:900;cursor:pointer}.edit{background:#fef3c7}.check{background:#d1fae5;color:#047857}.back{background:#dbeafe;color:#1d4ed8}.delete{background:#fee2e2;color:#b91c1c}
+.empty{background:white;border:1px dashed #cbd5e1;border-radius:22px;text-align:center;padding:26px 14px;color:var(--muted);font-weight:800}.empty .emoji{font-size:38px;display:block;margin-bottom:5px}.footer{text-align:center;color:var(--muted);font-weight:900;font-size:13px;padding:8px}.footer b{color:var(--primary2)}
+.report-box{display:none;background:white;color:#111;padding:20px;width:780px;font-family:'Baloo 2',sans-serif}.report-title{text-align:center;color:#5b5ff5;font-size:28px;font-weight:900}.report-sub{text-align:center;color:#555;margin-bottom:12px}.report-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.rstat{border:1px solid #ddd;border-radius:12px;padding:8px;text-align:center}.rstat b{font-size:21px;color:#5b5ff5}.report-table{width:100%;border-collapse:collapse;font-size:13px}.report-table th,.report-table td{border:1px solid #bbb;padding:7px;text-align:left;vertical-align:top}.report-table th{background:#eef2ff;color:#111}.report-footer{text-align:center;margin-top:16px;font-weight:900;color:#5b5ff5}
+@media(max-width:520px){body{padding:8px}.container{gap:10px}.hero{border-radius:24px}.app-title{font-size:20px}.stats-grid{grid-template-columns:repeat(4,1fr)}.tabs{grid-template-columns:repeat(4,1fr)}.tab{font-size:12px;padding:8px 2px}.row-2,.filters,.actions-grid{grid-template-columns:1fr}.icon-wrap{flex-direction:column}.icon-btn{width:40px;height:34px}.topline{align-items:flex-start}.live-badge{font-size:12px}.card{border-radius:20px;padding:12px}}
+</style></head><body>
+<div class="container">  <div class="hero">
+    <div class="topline">
+      <div>
+        <h1 class="app-title">🇮🇳 RCM Tracker Pro V2.0</h1>
+        <div class="subtitle">संकल्प • V2.0</div>
+      </div>
+      <div class="live-badge">🟢 V2.0 Live</div>
+    </div><div class="stats-grid">
+  <div class="stat-box"><div class="stat-num" id="statTotal">0</div><div class="stat-label">एकूण</div></div>
+  <div class="stat-box"><div class="stat-num" id="statToday">0</div><div class="stat-label">आज</div></div>
+  <div class="stat-box"><div class="stat-num" id="statDone">0</div><div class="stat-label">पूर्ण</div></div>
+  <div class="stat-box"><div class="stat-num" id="statOverdue">0</div><div class="stat-label">Overdue</div></div>
 </div>
 
-<div class="stat-box">
-<div class="stat-num" id="stat-done">0</div>
-<div>पूर्ण</div>
-</div>
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="progress-text" id="progressText">0% Target Completed</div>
 
-<div class="stat-box">
-<div class="stat-num" id="stat-pending">0</div>
-<div>बाकी</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="tabs">
-
-<div class="tab active" id="tabPending" onclick="switchTab('pending')">
-⏳ बाकी कामे
-</div>
-
-<div class="tab" id="tabDone" onclick="switchTab('done')">
-✅ इतिहास
-</div>
-
-</div>
-
-<div class="glass-input">
-
-<input id="personInput" placeholder="👤 नाव">
-
-<input id="taskInput" placeholder="📝 काम">
-
-<input type="date" id="dateInput">
-
-<button class="add-btn" onclick="addTask()">ADD TASK</button>
-
-<input id="search" placeholder="🔍 Search task" onkeyup="searchTask()">
-
-<button onclick="downloadReport()" class="add-btn">
-📄 Download Report
-</button>
-
-</div>
-
-<div id="mainList"></div>
-
-</div>
-
-<script type="module">
-
+  </div>  <div class="tabs">
+    <button class="tab active" id="tabToday" onclick="switchTab('today')">🔥 Today</button>
+    <button class="tab" id="tabPending" onclick="switchTab('pending')">🎯 Target</button>
+    <button class="tab" id="tabDone" onclick="switchTab('done')">✅ Done</button>
+    <button class="tab" id="tabOverdue" onclick="switchTab('overdue')">📞 Follow-up</button>
+  </div>  <div class="card">
+    <div class="section-title">🎯 RCM Daily Action Add करा</div>
+    <div class="form-grid">
+      <input id="personInput" placeholder="👤 Associate / Customer / Prospect नाव">
+      <textarea id="taskInput" placeholder="📝 काम: Call / Follow-up / Home Visit / Product Demo / PV Target"></textarea>
+      <div class="row-2">
+        <input type="date" id="dateInput">
+        <select id="priorityInput">
+          <option value="High">🔴 High Priority</option>
+          <option value="Normal" selected>🔵 Normal</option>
+          <option value="Low">🟢 Low</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="addTask()">🚀 Action Save करा</button>
+    </div>
+  </div>  <div class="card">
+    <div class="section-title">📊 RCM Tracking & Report</div>
+    <div class="filters">
+      <input id="searchInput" placeholder="नाव किंवा काम शोधा" oninput="render()">
+      <input type="date" id="filterDate" onchange="render()">
+    </div>
+    <select id="personFilter" class="person-filter" onchange="render()">
+      <option value="">सर्व लोक</option>
+    </select>
+    <div class="actions-grid">
+      <button class="btn btn-light" onclick="clearFilters()">Filter Clear</button>
+      <button class="btn btn-blue" onclick="downloadDateReport()">📄 Daily Report</button>
+      <button class="btn btn-green" onclick="downloadMonthlyReport()">📈 Monthly RCM Report</button>
+      <button class="btn btn-orange" onclick="backupLocal()">💾 Local Backup</button>
+    </div>
+  </div>  <div class="list-head">
+    <div class="section-title" style="margin:0">📋 RCM Action List</div>
+    <div class="count-pill" id="listCount">0 कामे</div>
+  </div>  <div id="mainList"></div>  <div class="footer"><b>RCM Tracker Pro V2.0</b> • Designed by <b>DS WORLD</b></div>
+</div><div id="reportBox" class="report-box"></div><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-
-apiKey:"AIzaSyDm85K2wDKT_uYOWndPJLOaWSudyppk8Ew",
-authDomain:"task-c106f.firebaseapp.com",
-projectId:"task-c106f",
-storageBucket:"task-c106f.firebasestorage.app",
-messagingSenderId:"569746777624",
-appId:"1:569746777624:web:59b0d52ea9ed3582d4456d"
-
+  apiKey:"AIzaSyDm85K2wDKT_uYOWndPJLOaWSudyppk8Ew",
+  authDomain:"task-c106f.firebaseapp.com",
+  projectId:"task-c106f",
+  storageBucket:"task-c106f.firebasestorage.app",
+  messagingSenderId:"569746777624",
+  appId:"1:569746777624:web:59b0d52ea9ed3582d4456d"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-const tasksCol=collection(db,"tasks");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const tasksCol = collection(db,"tasks");
 
-let allData=[];
-let currentTab="pending";
+let allData = [];
+let currentTab = "today";
 
-window.switchTab=(tab)=>{
+const $ = id => document.getElementById(id);
+const todayISO = () => new Date().toISOString().slice(0,10);
+$("dateInput").value = todayISO();
 
-currentTab=tab;
-
-document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-
-if(tab==="pending"){
-document.getElementById("tabPending").classList.add("active");
-}else{
-document.getElementById("tabDone").classList.add("active");
+function safeText(str=""){
+  return String(str).replace(/[&<>"']/g, s => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[s]));
 }
 
-render();
+function priorityClass(p){
+  if(p === "High") return "high";
+  if(p === "Low") return "low";
+  return "normal";
+}
 
+function priorityIcon(p){
+  if(p === "High") return "🔴";
+  if(p === "Low") return "🟢";
+  return "🔵";
+}
+
+function isOverdue(t){
+  return !t.completed && t.date && t.date < todayISO();
+}
+
+window.switchTab = tab => {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(btn => btn.classList.remove("active"));
+  const map = {today:"tabToday", pending:"tabPending", done:"tabDone", overdue:"tabOverdue"};
+  $(map[tab]).classList.add("active");
+  render();
 };
 
-function render(data=allData){
-
-const list=document.getElementById("mainList");
-list.innerHTML="";
-
-let tasks=[];
-
-if(currentTab==="pending"){
-tasks=data.filter(t=>!t.completed);
-}else{
-tasks=data.filter(t=>t.completed);
+function refreshPersonFilter(){
+  const select = $("personFilter");
+  const old = select.value;
+  const names = [...new Set(allData.map(t => (t.person || "").trim()).filter(Boolean))].sort();
+  select.innerHTML = '<option value="">सर्व लोक</option>' + names.map(n => `<option value="${safeText(n)}">${safeText(n)}</option>`).join("");
+  select.value = names.includes(old) ? old : "";
 }
 
-tasks.sort((a,b)=>(a.date||"9999").localeCompare(b.date||"9999"));
+function getFilteredData(){
+  let data = [...allData];
+  const q = ($("searchInput").value || "").toLowerCase().trim();
+  const date = $("filterDate").value;
+  const person = $("personFilter").value;
 
-let lastDate="";
+  if(currentTab === "today") data = data.filter(t => !t.completed && t.date === todayISO());
+  if(currentTab === "pending") data = data.filter(t => !t.completed);
+  if(currentTab === "done") data = data.filter(t => t.completed);
+  if(currentTab === "overdue") data = data.filter(t => isOverdue(t));
 
-tasks.forEach(t=>{
+  if(q){
+    data = data.filter(t =>
+      (t.text || "").toLowerCase().includes(q) ||
+      (t.person || "").toLowerCase().includes(q)
+    );
+  }
+  if(date) data = data.filter(t => t.date === date);
+  if(person) data = data.filter(t => t.person === person);
 
-let date=t.date||"No Date";
-
-if(date!==lastDate){
-
-let d=document.createElement("div");
-d.className="date-title";
-d.innerText="📅 "+date;
-
-list.appendChild(d);
-
-lastDate=date;
-
+  data.sort((a,b) =>
+    (a.date || "9999-99-99").localeCompare(b.date || "9999-99-99") ||
+    (priorityRank(a.priority) - priorityRank(b.priority)) ||
+    ((b.createdAt || 0) - (a.createdAt || 0))
+  );
+  return data;
 }
 
-let div=document.createElement("div");
-
-div.className="task-card "+(t.completed?"card-done":"");
-
-div.innerHTML=`
-
-<div>
-
-<strong>${t.text}</strong>
-
-<br>
-
-<small>${t.person}</small>
-
-</div>
-
-<div>
-
-<button class="icon-btn" onclick="editTask('${t.id}','${t.text}','${t.person}')">✏️</button>
-
-${!t.completed?`<button class="icon-btn btn-check" onclick="markDone('${t.id}')">✓</button>`:""}
-
-<button class="icon-btn btn-del" onclick="del('${t.id}')">✕</button>
-
-</div>
-
-`;
-
-list.appendChild(div);
-
-});
-
-updateStats();
-
+function priorityRank(p){
+  if(p === "High") return 1;
+  if(p === "Normal") return 2;
+  return 3;
 }
+
+window.render = () => {
+  const list = $("mainList");
+  const tasks = getFilteredData();
+  list.innerHTML = "";
+  $("listCount").innerText = tasks.length + " कामे";
+
+  if(tasks.length === 0){
+    list.innerHTML = `<div class="empty"><span class="emoji">🙌</span>या विभागात सध्या काम नाही</div>`;
+    updateStats();
+    return;
+  }
+
+  let lastDate = "";
+  tasks.forEach(t => {
+    const date = t.date || "No Date";
+    if(date !== lastDate){
+      const title = document.createElement("div");
+      title.className = "date-title";
+      title.innerText = "📅 " + date;
+      list.appendChild(title);
+      lastDate = date;
+    }
+
+    const overdue = isOverdue(t);
+    const today = !t.completed && t.date === todayISO();
+    const done = !!t.completed;
+    const pClass = priorityClass(t.priority || "Normal");
+
+    const div = document.createElement("div");
+    div.className = `task-card ${done ? "done" : ""} ${today ? "today" : ""} ${overdue ? "overdue" : ""} ${pClass}`;
+    div.innerHTML = `
+      <div class="task-main">
+        <div class="task-title">${safeText(t.text || "-")}</div>
+        <div class="task-meta">
+          <span class="pill">👤 ${safeText(t.person || "-")}</span>
+          <span class="pill ${pClass}">${priorityIcon(t.priority)} ${safeText(t.priority || "Normal")}</span>
+          ${done ? '<span class="pill done">✅ पूर्ण</span>' : ''}
+          ${overdue ? '<span class="pill overdue">⚠️ Overdue</span>' : ''}
+        </div>
+      </div>
+      <div class="icon-wrap">
+        <button class="icon-btn edit" onclick="editTask('${t.id}')">✏️</button>
+        ${done ? `<button class="icon-btn back" onclick="markPending('${t.id}')">↩</button>` : `<button class="icon-btn check" onclick="markDone('${t.id}')">✓</button>`}
+        <button class="icon-btn delete" onclick="delTask('${t.id}')">✕</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+  updateStats();
+};
 
 function updateStats(){
+  const total = allData.length;
+  const done = allData.filter(t => t.completed).length;
+  const today = allData.filter(t => !t.completed && t.date === todayISO()).length;
+  const overdue = allData.filter(t => isOverdue(t)).length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
 
-let total=allData.length;
-let done=allData.filter(t=>t.completed).length;
-let pending=total-done;
-
-document.getElementById("stat-total").innerText=total;
-document.getElementById("stat-done").innerText=done;
-document.getElementById("stat-pending").innerText=pending;
-
+  $("statTotal").innerText = total;
+  $("statToday").innerText = today;
+  $("statDone").innerText = done;
+  $("statOverdue").innerText = overdue;
+  $("progressBar").style.width = pct + "%";
+  $("progressText").innerText = pct + "% Target Completed | बाकी " + (total - done);
 }
 
-window.addTask=async()=>{
+window.addTask = async () => {
+  const person = $("personInput").value.trim();
+  const text = $("taskInput").value.trim();
+  const date = $("dateInput").value;
+  const priority = $("priorityInput").value;
 
-let person=document.getElementById("personInput").value;
-let text=document.getElementById("taskInput").value;
-let date=document.getElementById("dateInput").value;
+  if(!person || !text){
+    alert("कृपया नाव आणि काम भरा");
+    return;
+  }
 
-if(!person||!text)return alert("नाव आणि काम भरा");
+  await addDoc(tasksCol, {
+    person, text, date, priority,
+    completed:false,
+    createdAt:Date.now(),
+    completedAt:null
+  });
 
-await addDoc(tasksCol,{
-person:person,
-text:text,
-date:date,
-completed:false,
-createdAt:Date.now()
-});
-
-document.getElementById("taskInput").value="";
-
+  $("taskInput").value = "";
+  $("taskInput").focus();
 };
 
-window.markDone=async(id)=>{
-
-await updateDoc(doc(db,"tasks",id),{
-completed:true,
-completedAt:Date.now()
-});
-
+window.markDone = async id => {
+  await updateDoc(doc(db,"tasks",id), {completed:true, completedAt:Date.now()});
 };
 
-window.del=async(id)=>{
-
-await deleteDoc(doc(db,"tasks",id));
-
+window.markPending = async id => {
+  await updateDoc(doc(db,"tasks",id), {completed:false, completedAt:null});
 };
 
-window.editTask=async(id,oldText,oldPerson)=>{
-
-let newText=prompt("काम बदला:",oldText);
-let newPerson=prompt("नाव बदला:",oldPerson);
-
-if(!newText||!newPerson) return;
-
-await updateDoc(doc(db,"tasks",id),{
-text:newText,
-person:newPerson
-});
-
+window.delTask = async id => {
+  if(confirm("हे काम delete करायचे का?")){
+    await deleteDoc(doc(db,"tasks",id));
+  }
 };
 
-window.searchTask=()=>{
+window.editTask = async id => {
+  const t = allData.find(x => x.id === id);
+  if(!t) return;
 
-let val=document.getElementById("search").value.toLowerCase();
+  const newText = prompt("काम बदला:", t.text || "");
+  if(newText === null || !newText.trim()) return;
 
-let filtered=allData.filter(t=>
-t.text.toLowerCase().includes(val)
-);
+  const newPerson = prompt("नाव बदला:", t.person || "");
+  if(newPerson === null || !newPerson.trim()) return;
 
-render(filtered);
+  const newDate = prompt("Date बदला YYYY-MM-DD:", t.date || todayISO());
+  if(newDate === null) return;
 
+  const newPriority = prompt("Priority लिहा: High / Normal / Low", t.priority || "Normal");
+  if(newPriority === null) return;
+
+  const p = ["High","Normal","Low"].includes(newPriority) ? newPriority : "Normal";
+
+  await updateDoc(doc(db,"tasks",id), {
+    text:newText.trim(),
+    person:newPerson.trim(),
+    date:newDate.trim(),
+    priority:p
+  });
 };
 
-window.downloadReport=()=>{
+window.clearFilters = () => {
+  $("searchInput").value = "";
+  $("filterDate").value = "";
+  $("personFilter").value = "";
+  render();
+};
 
-const { jsPDF } = window.jspdf;
+window.backupLocal = () => {
+  localStorage.setItem("sankalp_backup", JSON.stringify(allData));
+  alert("Local backup save झाला");
+};
 
-let doc=new jsPDF();
+function buildReport(title, tasks){
+  const total = tasks.length;
+  const done = tasks.filter(t => t.completed).length;
+  const pending = total - done;
+  const overdue = tasks.filter(t => isOverdue(t)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
 
-let doneTasks=allData.filter(t=>t.completed);
+  const rows = tasks.map((t,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td>${safeText(t.date || "-")}</td>
+      <td>${safeText(t.person || "-")}</td>
+      <td>${safeText(t.text || "-")}</td>
+      <td>${safeText(t.priority || "Normal")}</td>
+      <td>${t.completed ? "पूर्ण" : "बाकी"}</td>
+    </tr>
+  `).join("");
 
-if(doneTasks.length===0){
-alert("अद्याप पूर्ण कामे नाहीत");
-return;
+  $("reportBox").innerHTML = `
+    <div class="report-title">🇮🇳 RCM Tracker Pro V2.0</div>
+    <div class="report-sub"><b>${title}</b></div>
+    <div class="report-sub">Report Date: ${todayISO()}</div>
+    <div class="report-summary">
+      <div class="rstat"><b>${total}</b><br>एकूण</div>
+      <div class="rstat"><b>${done}</b><br>पूर्ण</div>
+      <div class="rstat"><b>${pending}</b><br>बाकी</div>
+      <div class="rstat"><b>${pct}%</b><br>Progress</div>
+    </div>
+    <p><b>Overdue:</b> ${overdue}</p>
+    <table class="report-table">
+      <thead>
+        <tr><th>Sr</th><th>Date</th><th>Name</th><th>Task</th><th>Priority</th><th>Status</th></tr>
+      </thead>
+      <tbody>${rows || '<tr><td colspan="6">Data नाही</td></tr>'}</tbody>
+    </table>
+    <div class="report-footer">RCM Tracker Pro V2.0<br>Designed by DS WORLD</div>
+  `;
 }
 
-doc.setFontSize(18);
-doc.text("Sankalp Task Report",20,20);
+function savePDF(filename){
+  const opt = {
+    margin:8,
+    filename,
+    image:{type:"jpeg",quality:.98},
+    html2canvas:{scale:2,useCORS:true},
+    jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
+  };
+  html2pdf().set(opt).from($("reportBox")).save();
+}
 
-let y=40;
-
-doneTasks.forEach((t,i)=>{
-
-doc.setFontSize(12);
-
-doc.text(
-(i+1)+". "+t.text+" - "+t.person,
-20,
-y
-);
-
-y+=10;
-
-});
-
-doc.save("sankalp-report.pdf");
-
+window.downloadDateReport = () => {
+  const date = $("filterDate").value || todayISO();
+  const tasks = allData.filter(t => t.date === date).sort((a,b) => (a.person || "").localeCompare(b.person || ""));
+  buildReport("Date-wise Task Report - " + date, tasks);
+  savePDF("sankalp-date-report-" + date + ".pdf");
 };
 
-onSnapshot(tasksCol,(snap)=>{
+window.downloadMonthlyReport = () => {
+  const selected = $("filterDate").value || todayISO();
+  const month = selected.slice(0,7);
+  const tasks = allData.filter(t => (t.date || "").slice(0,7) === month).sort((a,b) => (a.date || "").localeCompare(b.date || ""));
+  buildReport("Monthly Summary Report - " + month, tasks);
+  savePDF("sankalp-monthly-report-" + month + ".pdf");
+};
 
-allData=[];
-
-snap.forEach(d=>{
-allData.push({id:d.id,...d.data()});
+onSnapshot(query(tasksCol, orderBy("createdAt","desc")), snap => {
+  allData = [];
+  snap.forEach(d => allData.push({id:d.id, ...d.data()}));
+  localStorage.setItem("sankalp_live_cache", JSON.stringify(allData));
+  refreshPersonFilter();
+  render();
+}, err => {
+  console.error(err);
+  const cache = localStorage.getItem("sankalp_live_cache");
+  if(cache){
+    allData = JSON.parse(cache);
+    refreshPersonFilter();
+    render();
+    alert("Firebase connection issue. Local cache loaded.");
+  }
 });
-
-render();
-
-});
-
-</script>
-
-</body>
+</script></body>
 </html>
